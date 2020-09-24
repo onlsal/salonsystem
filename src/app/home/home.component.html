@@ -1,0 +1,14 @@
+<mat-card>
+    <mat-card-actions>
+        <button style="border:0;background:none;" (click)="login()">
+          <img src="assets/btn_google_signin_dark_normal_web.png" />
+        </button>
+    </mat-card-actions>
+    <mat-card-content>
+        <p [style.display]="claim ? 'none' : 'block'"> 本サービスはGoogleアカウントを使用します。<br>上の「sign in with google」ボタンをクリックして、googleアカウントでログインするか、新規アカウントを作成してください </p>
+        <div [style.display]="claim ? 'block' : 'none'">
+            <button mat-flat-button color="accent" (click)="toRegist()" [style.display]="flgEx ? 'none' : 'block'">Googleアカウント {{email}} で予約管理アカウント登録</button>
+            <button mat-flat-button color="accent" (click)="toAdmin()" [style.display]="flgEx ? 'block' : 'none'">{{ownsrv.owner.dojoname}} 様の予約管理画面へ</button>
+        </div>
+    </mat-card-content>
+</mat-card>
