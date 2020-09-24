@@ -15,13 +15,13 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "allowedCommonJsDependencies": [
-            "zen-observable",
-            "graphql-tag",
-            "js-sha256"
-          ],
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "zen-observable",
+              "graphql-tag",
+              "js-sha256"
+            ],
             "outputPath": "dist/salonsys",
             "index": "src/index.html",
             "main": "src/main.ts",

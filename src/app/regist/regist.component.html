@@ -1,1 +1,60 @@
-<p>regist works!</p>
+<h2>オンラインサロン予約システム アカウント登録</h2>
+<mat-card>
+    <form class="container" ngDefaultControl ngNativeValidate fxLayout="column">
+        <mat-form-field>
+            <mat-label>予約システムアカウントID</mat-label>
+            <input matInput numberInput [value]="ownsrv.owner.dojoid" disabled>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>団体名or道場名</mat-label>
+            <input matInput [(ngModel)]="ownsrv.owner.dojoname" name="name" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>代表者姓</mat-label>
+            <input matInput [(ngModel)]="ownsrv.owner.sei" name="sei" required>
+        </mat-form-field>
+        <mat-form-field >
+            <mat-label>代表者名</mat-label>
+            <input matInput [(ngModel)]="ownsrv.owner.mei" name="mei" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>生年月日</mat-label>
+              <input matInput [matDatepicker]="picker" [(ngModel)]="ownsrv.owner.birth" name="bir">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field >
+            <mat-label>連絡先電話番号</mat-label>
+            <input matInput [(ngModel)]="ownsrv.owner.tel" name="tel" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>メール</mat-label>
+            <input matInput [(ngModel)]="ownsrv.owner.mail" name="mai" disabled>
+        </mat-form-field>
+    </form>
+    <form class="example-form container" ngNativeValidate ybAddress (submit)="false" [ybAutocompleteMode]="'off'" #address="ybAddress" fxLayout="column">
+        <mat-form-field>
+          <mat-label>郵便番号</mat-label>
+          <input matInput [(ngModel)]="ownsrv.owner.zip" [ngModelOptions]="{standalone: true}" ybPostalCode required>
+          <button mat-button matSuffix mat-stroked-button aria-label="get" (click)="address.complete()">
+            住所補完
+          </button>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>都道府県</mat-label>
+          <input matInput [(ngModel)]="ownsrv.owner.region" [ngModelOptions]="{standalone: true}" ybRegion required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label for="localityInput">市区町村</mat-label>
+          <input matInput id="localityInput" [(ngModel)]="ownsrv.owner.local" [ngModelOptions]="{standalone: true}" ybLocality required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label  for="streetInput">町名・番地</mat-label>
+          <input matInput id="streetInput" [(ngModel)]="ownsrv.owner.street" [ngModelOptions]="{standalone: true}" ybStreet required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>マンション・ビル名</mat-label>
+          <input matInput id="extendedInput" [(ngModel)]="ownsrv.owner.extend" [ngModelOptions]="{standalone: true}" ybExtended>
+        </mat-form-field>
+      </form>    
+</mat-card>

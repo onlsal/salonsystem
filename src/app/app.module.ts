@@ -13,6 +13,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from './material.module';
+import { NgxYubinBangoModule } from 'ngx-yubinbango';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { MaterialModule } from './material.module';
     OAuthModule.forRoot(),
     FlexLayoutModule,
     FormsModule,
-    MaterialModule
+    MaterialModule,
+    NgxYubinBangoModule
   ],
   providers: [],
   bootstrap: [AppComponent]
