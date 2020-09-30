@@ -75,13 +75,12 @@ export class RegistComponent implements OnInit {
   }
 
   get calenders(): string[] {
-    let cals:string[];
+    let cals:string[]=[];
     for (let i=0;i<this.options.length;i++){
       cals.push(this.options[i].calender);
     }
     return cals;
   }
-
 
   // 追加ボタンがクリックされたときに実行する関数です。
   // pushとすることで既存のフォームにオプション用のフォームを追加します。
