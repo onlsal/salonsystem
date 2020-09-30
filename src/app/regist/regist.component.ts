@@ -77,7 +77,7 @@ export class RegistComponent implements OnInit {
   get calenders(): string[] {
     let cals:string[]=[];
     for (let i=0;i<this.options.length;i++){
-      cals.push(this.options[i].calender);
+      cals.push(this.options.value[i].calender);
     }
     return cals;
   }
