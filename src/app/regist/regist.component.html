@@ -1,60 +1,104 @@
 <h2>オンラインサロン予約システム アカウント登録</h2>
-<mat-card>
-    <form class="container" ngDefaultControl ngNativeValidate fxLayout="column">
-        <mat-form-field>
+<mat-card style="max-width: 800px;margin: 0 auto;">
+  <mat-horizontal-stepper #stepper> 
+    <mat-step [stepControl]="firstFormGroup" label="基本情報入力">   
+      <form [formGroup]="firstFormGroup" class="container" ngDefaultControl ngNativeValidate fxLayout="column" [formGroup]="firstFormGroup">
+        <!-- <mat-form-field>
             <mat-label>予約システムアカウントID</mat-label>
             <input matInput numberInput [value]="ownsrv.owner.dojoid" disabled>
-        </mat-form-field>
+        </mat-form-field> -->
         <mat-form-field>
             <mat-label>団体名or道場名</mat-label>
-            <input matInput [(ngModel)]="ownsrv.owner.dojoname" name="name" required>
+            <input matInput [(ngModel)]="ownsrv.owner.dojoname" formControlName="nam" required>
         </mat-form-field>
         <mat-form-field>
             <mat-label>代表者姓</mat-label>
-            <input matInput [(ngModel)]="ownsrv.owner.sei" name="sei" required>
+            <input matInput [(ngModel)]="ownsrv.owner.sei" formControlName="sei" required>
         </mat-form-field>
         <mat-form-field >
             <mat-label>代表者名</mat-label>
-            <input matInput [(ngModel)]="ownsrv.owner.mei" name="mei" required>
+            <input matInput [(ngModel)]="ownsrv.owner.mei" formControlName="mei" required>
         </mat-form-field>
         <mat-form-field>
             <mat-label>生年月日</mat-label>
-              <input matInput [matDatepicker]="picker" [(ngModel)]="ownsrv.owner.birth" name="bir">
+              <input matInput [matDatepicker]="picker" [(ngModel)]="ownsrv.owner.birth" formControlName="bir">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <mat-form-field >
             <mat-label>連絡先電話番号</mat-label>
-            <input matInput [(ngModel)]="ownsrv.owner.tel" name="tel" required>
+            <input matInput [(ngModel)]="ownsrv.owner.tel" formControlName="tel" required>
         </mat-form-field>
         <mat-form-field>
             <mat-label>メール</mat-label>
-            <input matInput [(ngModel)]="ownsrv.owner.mail" name="mai" disabled>
+            <input matInput [value]="ownsrv.owner.mail" disabled>
         </mat-form-field>
-    </form>
-    <form class="example-form container" ngNativeValidate ybAddress (submit)="false" [ybAutocompleteMode]="'off'" #address="ybAddress" fxLayout="column">
+        <div>
+          <button mat-button mat-stroked-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup" label="住所入力">
+      <form [formGroup]="secondFormGroup" class="example-form container" ngNativeValidate ybAddress (submit)="false" [ybAutocompleteMode]="'off'" #address="ybAddress" fxLayout="column">
         <mat-form-field>
           <mat-label>郵便番号</mat-label>
-          <input matInput [(ngModel)]="ownsrv.owner.zip" [ngModelOptions]="{standalone: true}" ybPostalCode required>
+          <input matInput [(ngModel)]="ownsrv.owner.zip" formControlName="zip" ybPostalCode required>
           <button mat-button matSuffix mat-stroked-button aria-label="get" (click)="address.complete()">
             住所補完
           </button>
         </mat-form-field>
         <mat-form-field>
           <mat-label>都道府県</mat-label>
-          <input matInput [(ngModel)]="ownsrv.owner.region" [ngModelOptions]="{standalone: true}" ybRegion required>
-        </mat-form-field>
+          <input matInput [(ngModel)]="ownsrv.owner.region" formControlName="reg" ybRegion required>
+        </mat-form-field> 
         <mat-form-field>
           <mat-label for="localityInput">市区町村</mat-label>
-          <input matInput id="localityInput" [(ngModel)]="ownsrv.owner.local" [ngModelOptions]="{standalone: true}" ybLocality required>
+          <input matInput id="localityInput" [(ngModel)]="ownsrv.owner.local" formControlName="loc" ybLocality required>
         </mat-form-field>
         <mat-form-field>
           <mat-label  for="streetInput">町名・番地</mat-label>
-          <input matInput id="streetInput" [(ngModel)]="ownsrv.owner.street" [ngModelOptions]="{standalone: true}" ybStreet required>
+          <input matInput id="streetInput" [(ngModel)]="ownsrv.owner.street" formControlName="str" ybStreet required>
         </mat-form-field>
         <mat-form-field>
           <mat-label>マンション・ビル名</mat-label>
-          <input matInput id="extendedInput" [(ngModel)]="ownsrv.owner.extend" [ngModelOptions]="{standalone: true}" ybExtended>
+          <input matInput id="extendedInput" [(ngModel)]="ownsrv.owner.extend" formControlName="ext" ybExtended>
         </mat-form-field>
-      </form>    
+        <div>
+          <button mat-button mat-stroked-button matStepperPrevious>Back</button>
+          <button mat-button mat-stroked-button matStepperNext>Next</button>
+        </div>
+      </form> 
+    </mat-step>   
+    <mat-step label="カレンダー・申込">
+      <form [formGroup]="thirdFormGroup">
+        <fieldset>
+          <legend>カレンダー名を入力してください(追加できます)</legend>
+          <div formArrayName="options">
+            <!-- for文を回して、表示 -->
+            <div *ngFor="let option of options.controls; let i = index">
+              <!-- 中にあるFromGroupの名前はindex名になるのがポイント -->
+              <div [formGroupName]="i">
+                <mat-form-field>
+                  <mat-label>カレンダー{{i + 1}}</mat-label>
+                  <input matInput formControlName="calender" />
+                  <button mat-button matSuffix mat-stroked-button (click)="removeOptionForm(i)">削除</button>
+                </mat-form-field>
+              </div>
+              <!-- 削除するときはindexが必要になるので引数で渡す -->
+            </div>
+          </div>
+          <button mat-flat-button (click)="addOptionForm()">カレンダー追加</button>  
+        </fieldset>
+      </form>
+      <br>
+      <button mat-flat-button color="accent" (click)="ins_owner(false)">基本プラン申し込み</button>
+      <p>※決済サービスを利用した場合、決済手数料がかかりますが、その他の機能は無料でご使用いただけます。</p>
+      <button mat-flat-button color="accent" (click)="ins_owner(true)">基本プラン＋名簿作成管理申し込み</button>
+      <p>※基本プランと併せて有償の名簿作成管理プランを申し込まれる方は、このボタンをクリックしてください。</p>
+      <div>
+        <button mat-button mat-stroked-button matStepperPrevious>Back</button>
+        <button mat-button  mat-stroked-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step> 
+  </mat-horizontal-stepper>      
 </mat-card>

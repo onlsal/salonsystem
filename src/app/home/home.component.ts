@@ -11,7 +11,6 @@ import { OwnerService } from '../srvs/owner.service';
   styleUrls: ['./home.component.sass']
 })
 export class HomeComponent implements OnInit {
-  public flgEx:boolean;
   public email:string="";
   public claim:any;
   constructor(private oauthService: OAuthService,
@@ -31,27 +30,28 @@ export class HomeComponent implements OnInit {
     await this.oauthService.loadDiscoveryDocument()
     .then(() => this.oauthService.tryLogin());
     this.claim = this.oauthService.getIdentityClaims();
-    this.email=this.claim.email;
-    // console.log("init",this.claim);
-    this.apollo.watchQuery<any>({
-      query: Query.GetQuery1,
-      variables: { 
-          gid:this.claim.sub
-        },
-      })
-      .valueChanges
-      .subscribe(({ data }) => {
-        if (data.tblowner.length==0){
-          this.flgEx=false;
-          this.ownsrv.owner.googleid=this.claim.sub;
-          this.ownsrv.owner.sei=this.claim.family_name;
-          this.ownsrv.owner.mei=this.claim.given_name;
-          this.ownsrv.owner.mail=this.claim.email;
-        } else { 
-          this.flgEx=true;
-          this.ownsrv.owner = data.tblowner[0];
-        }
-      });
+    if (this.claim != null){
+      this.email=this.claim.email;
+      // console.log("init",this.claim);
+      this.apollo.watchQuery<any>({
+        query: Query.GetQuery1,
+        variables: { 
+            gid:this.claim.sub
+          },
+        })
+        .valueChanges
+        .subscribe(({ data }) => {
+          if (data.tblowner.length==0){
+            this.ownsrv.owner.googleid=this.claim.sub;
+            this.ownsrv.owner.sei=this.claim.family_name;
+            this.ownsrv.owner.mei=this.claim.given_name;
+            this.ownsrv.owner.mail=this.claim.email;
+          } else { 
+            this.ownsrv.owner = data.tblowner[0];
+            this.ownsrv.owner.flgEx=true;
+          }
+        });
+    }
   }
 
   public login():void{
@@ -60,6 +60,7 @@ export class HomeComponent implements OnInit {
   }
 
   public toRegist():void{
+    console.log("navi前");
     this.router.navigate(['/regist']);
   }
   public toAdmin():void{

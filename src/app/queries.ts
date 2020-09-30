@@ -26,3 +26,11 @@ mutation ins_owner($object: tblowner_insert_input!) {
     googleid
   }
 }`;
+
+export const InsertForm = gql`
+mutation ins_from($object: tblowner_insert_input!) {
+  insert_tblowner_one(object: $object) {
+    dojoid
+    googleid
+  }
+}`;

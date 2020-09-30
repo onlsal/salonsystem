@@ -10,7 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { OAuthModule } from 'angular-oauth2-oidc';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from './material.module';
 import { NgxYubinBangoModule } from 'ngx-yubinbango';
@@ -31,6 +31,7 @@ import { NgxYubinBangoModule } from 'ngx-yubinbango';
     OAuthModule.forRoot(),
     FlexLayoutModule,
     FormsModule,
+    ReactiveFormsModule,
     MaterialModule,
     NgxYubinBangoModule
   ],
