@@ -1,14 +1,29 @@
 <mat-card>
-    <mat-card-actions>
-        <button style="border:0;background:none;" (click)="login()">
-          <img src="assets/btn_google_signin_dark_normal_web.png" />
-        </button>
-    </mat-card-actions>
-    <mat-card-content>
-        <p [style.display]="claim ? 'none' : 'block'"> 本サービスはGoogleアカウントを使用します。<br>上の「sign in with google」ボタンをクリックして、googleアカウントでログインするか、新規アカウントを作成してください </p>
+    <!-- <mat-horizontal-stepper #stepper> 
+        <mat-step> -->
+            <p> 本サービスはGoogleアカウントを使用します。<br>Googleアカウントがない方は、新規アカウントを作成してください </p>
+            <p><a href="https://accounts.google.com/signup" mat-flat-button target="blank" color="warn">googleアカウント作成(別window)</a><br></p>
+        <!-- <p [style.display]="claim ? 'none' : 'block'"> 本サービスはGoogleアカウントを使用します。<br>上の「sign in with google」ボタンをクリックして、googleアカウントでログインするか、新規アカウントを作成してください </p>
         <div [style.display]="claim ? 'block' : 'none'">
-            <button mat-flat-button color="accent" (click)="toRegist()" [style.display]="ownsrv.owner.flgEx ? 'none' : 'block'">Googleアカウント {{email}} で予約管理アカウント登録</button>
-            <button mat-flat-button color="accent" (click)="toAdmin()" [style.display]="ownsrv.owner.flgEx ? 'block' : 'none'">{{ownsrv.owner.dojoname}} 様の予約管理画面へ</button>
-        </div>
-    </mat-card-content>
+            <button mat-flat-button color="accent" (click)="toAdmin()" [style.display]="ownsrv.flgEx ? 'block' : 'none'">{{ownsrv.owner.dojoname}} 様の予約管理画面へ</button>
+        </div> -->
+          <!-- <div>
+            <button mat-button mat-stroked-button matStepperNext>アカウント登録済の場合、次へ</button>
+          </div> -->
+        <!-- </mat-step>
+        <mat-step> -->
+          <p> Googleアカウントをお持ちの方は、ログインしてください <br></p>
+          <button style="border:0;background:none;" (click)="login()">
+            <img src="assets/btn_google_signin_dark_normal_web.png" />
+          </button> 
+          <!-- <div>
+           <button mat-button mat-stroked-button matStepperPrevious>googleアカウント登録へ戻る</button>
+          </div>
+        </mat-step>
+    </mat-horizontal-stepper> -->
+    <p> Googleアカウントにログイン後、下記ボタンより、本サービスのアカウントを登録してください <br></p>
+    <div [style.display]="claim ? 'block' : 'none'">
+      <button mat-flat-button color="accent" (click)="toRegist()" [style.display]="ownsrv.flgEx ? 'none' : 'block'">Googleアカウント {{email}} で予約管理アカウント登録</button>          
+      <button mat-flat-button color="accent" (click)="toAdmin()" [style.display]="ownsrv.flgEx ? 'block' : 'none'">{{ownsrv.owner.dojoname}} 様の予約管理画面へ</button>
+    </div>
 </mat-card>

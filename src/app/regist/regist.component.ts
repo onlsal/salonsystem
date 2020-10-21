@@ -2,12 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import * as Query from '../queries';
-import moment from 'moment';
 import { OwnerService } from '../srvs/owner.service';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 
 declare let Email: any;
 declare const gapi: any;
+
+class Calobj {
+  dojoid:number;
+  calname:string;
+  calid:string;
+  constructor(init?:Partial<Calobj>) {
+      Object.assign(this, init);
+  }
+}
 
 @Component({
   selector: 'app-regist',
@@ -18,7 +26,8 @@ export class RegistComponent implements OnInit {
 
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
-  thirdFormGroup: FormGroup;
+  thirdFormGroup: FormGroup; 
+  cals:string[]=[];
 
   constructor( private apollo: Apollo,
     private frmBlder: FormBuilder,
@@ -34,15 +43,16 @@ export class RegistComponent implements OnInit {
         'https://script.googleapis.com/$discovery/rest?version=v1',
       ], 
        clientId: '913080910103-0s805k1mjsgohs8begmklvrer1lu05ve.apps.googleusercontent.com',
-       scope: 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/forms https://www.googleapis.com/auth/spreadsheets'
+      //  scope: 'exit'
+       scope: 'https://www.googleapis.com/auth/forms https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets'
      })
 
     });
+    
     this.firstFormGroup = this.frmBlder.group({
       nam: ['', Validators.required],
       sei: ['', Validators.required],
       mei: ['', Validators.required],
-      bir: ['', Validators.required],
       tel: ['', Validators.required]
     });
     this.secondFormGroup = this.frmBlder.group({
@@ -50,7 +60,8 @@ export class RegistComponent implements OnInit {
       reg: ['', Validators.required],
       loc: ['', Validators.required],
       str: ['', Validators.required],
-      ext: ['','']
+      ext: ['',''],
+      url: ['','']
     }); 
     this.thirdFormGroup = this.frmBlder.group({
       calender: [''],
@@ -58,6 +69,9 @@ export class RegistComponent implements OnInit {
       options: this.frmBlder.array([])
     });
     this.addOptionForm();
+
+    this.firstFormGroup.patchValue(this.ownsrv.owner);
+
   }
   
   // 追加ボタンがおされたときに追加したいフォームを定義しています。returnでFormGroupを返しています。
@@ -74,14 +88,6 @@ export class RegistComponent implements OnInit {
     return this.thirdFormGroup.get('options') as FormArray;
   }
 
-  get calenders(): string[] {
-    let cals:string[]=[];
-    for (let i=0;i<this.options.length;i++){
-      cals.push(this.options.value[i].calender);
-    }
-    return cals;
-  }
-
   // 追加ボタンがクリックされたときに実行する関数です。
   // pushとすることで既存のフォームにオプション用のフォームを追加します。
   addOptionForm() {
@@ -93,57 +99,41 @@ export class RegistComponent implements OnInit {
     this.options.removeAt(idx);
   }
   
-  public ins_owner(flg:boolean):void { 
-  
+  public ins_owner(flg:boolean):void {
+    for (let i=0;i<this.options.length;i++){
+      this.cals.push(this.options.value[i].calender);
+      // cals += ";" + this.options.value[i].calender;
+    }
+    // console.log(this.ownsrv.owner,cals);
     var op = gapi.client.request({
       'root': 'https://script.googleapis.com',
-      'path': 'v1/scripts/1d_MYVtwUgRlJv-rulQOPVNFHaSCYfzOSF5zVJUnfoGjoYA5stF5vRwrx:run',
+      'path': 'v1/scripts/1Q5gqppTVHnenU2m2MWbM83nXpKr7P0OQXwEjzfRRx-zp776Zi9V9wYhn:run',
       'method': 'POST',
       'body': {
-                  'function': 'regist',
-                  'parameters':[ this.ownsrv.owner.mail,
-                                 this.ownsrv.owner.dojoname,
-                                 this.calenders
-                                ] 
+                  'function': 'registOwner',
+                  'parameters':[ this.firstFormGroup.value.nam,
+                                 this.cals ]
+                  // 'path': 'v1/scripts/1d_MYVtwUgRlJv-rulQOPVNFHaSCYfzOSF5zVJUnfoGjoYA5stF5vRwrx:run',
               }
+
     });
+    // 'parameters':[{ 'email': this.ownsrv.owner.mail,
+    // 'name': this.ownsrv.owner.dojoname,
+    // 'calnames': cals }]
+    let self=this;
     op.execute(function(resp) {
       if (resp.error && resp.error.status) {
         console.log(resp.error,resp.error.status);
       } else if (resp.error) {
         console.log(resp.error,resp.error.status);
       } else { 
-        this.ownsrv.owner.folderid = resp.response.result.folder;
-        console.log(resp.response.result);
+        // this.ownsrv.owner.folderid = resp.response.result.folder;
+        // console.log("suc",resp.response.result);
+        self.ins_tblowner(resp.response.result);
       }
     });
      
-    this.apollo.mutate<any>({
-      mutation: Query.InsertOwner,
-      variables: {
-        "object": {
-          "googleid": this.ownsrv.owner.googleid,
-          "dojoname" : this.ownsrv.owner.dojoname,
-          "sei" :   this.ownsrv.owner.sei,
-          "mei" :   this.ownsrv.owner.mei,
-          "birth" : moment(this.ownsrv.owner.birth).format("YYYY-MM-DD"),
-          "mail" :  this.ownsrv.owner.mail,
-          "zip" : this.ownsrv.owner.zip,
-          "region" : this.ownsrv.owner.region,
-          "local" : this.ownsrv.owner.local,
-          "street" : this.ownsrv.owner.street,
-          "extend" : this.ownsrv.owner.extend,
-          "url" :   this.ownsrv.owner.url,
-          "tel" :   this.ownsrv.owner.tel,
-          "folderid" :   this.ownsrv.owner.folderid
-       }
-    },
-  }).subscribe(({ data }) => {
-    this.ownsrv.owner.dojoid = data.insert_tblowner_one.dojoid;
-    // console.log('InsertMember', data);
-  },(error) => {
-    console.log('error InsertMember', error);
-  });
+
 
   Email.send({
     SecureToken : '9853fbc2-4291-42b0-a969-e2c2015d1527',
@@ -160,5 +150,95 @@ export class RegistComponent implements OnInit {
 
   this.router.navigate(['/admin']);
   }
+  private ins_tblowner(result:any):void {
+    this.apollo.mutate<any>({
+      mutation: Query.InsertOwner,
+      variables: {
+        "object": {
+          "googleid": this.ownsrv.owner.googleid,
+          "dojoname" : this.firstFormGroup.value.nam,
+          "sei" :   this.firstFormGroup.value.sei,
+          "mei" :   this.firstFormGroup.value.mei,
+          "mail" :  this.ownsrv.owner.mail,
+          "zip" : this.secondFormGroup.value.zip,
+          "region" : this.secondFormGroup.value.reg,
+          "local" : this.secondFormGroup.value.loc,
+          "street" : this.secondFormGroup.value.str,
+          "extend" : this.secondFormGroup.value.ext,
+          "url" :   this.secondFormGroup.value.url,
+          "tel" :   this.firstFormGroup.value.tel,
+          "folderid" : result.folder,
+          "sprshtid" : result.sprsht
+        }
+      },
+    }).subscribe(({ data }) => {
+      this.ownsrv.owner.dojoid = data.insert_tblowner_one.dojoid;
+      // console.log('InsertMember', data);
+      let forms:[{
+        formid:string;
+        formname:string;
+        dojoid:number;
+        formtype:number;
+      }]=[{
+        "formid"   : result.forms[0],
+        "formname" : '予約作成画面',
+        "dojoid"   : this.ownsrv.owner.dojoid,
+        "formtype" : 0
+      }];
+      forms.push({
+        "formid"   : result.forms[1],
+        "formname" : 'テンプレート１(イベント決済あり)',
+        "dojoid"   : this.ownsrv.owner.dojoid,
+        "formtype" : 1
+      });
+      forms.push({
+        "formid"   : result.forms[2],
+        "formname" : 'テンプレート２(イベント決済なし)',
+        "dojoid"   : this.ownsrv.owner.dojoid,
+        "formtype" : 2
+      }); 
+      this.ins_tblform(forms);
+      let calobj:Calobj[]=[];
+      for (let i=0;i<result.cals.length;i++){
+        calobj.push({
+          "dojoid"  : this.ownsrv.owner.dojoid,
+          "calname" : this.cals[i],
+          "calid"   : result.cals[i],
+        });
+      }
+      this.ins_tblcal(calobj);
+    },(error) => {
+      console.log('error Insertownertbl', error);
+    });
+  }
+
+  private ins_tblform(objects:any):void {
+    this.apollo.mutate<any>({
+      mutation: Query.InsertForm,
+      variables: {
+        "objects": objects
+      },
+    }).subscribe(({ data }) => {
+      console.log('ins_tblform', data);
+    },(error) => {
+      console.log('error Iins_tblform', error);
+    });
+  }
+
+
+  private ins_tblcal(objects:any):void {
+    this.apollo.mutate<any>({
+      mutation: Query.InsertCalender,
+      variables: {
+        "objects": objects
+      },
+    }).subscribe(({ data }) => {
+      console.log('ins_tblcal', data);
+    },(error) => {
+      console.log('error Iins_tblcal', error);
+    });
+  }
+
+
 
 }

@@ -16,12 +16,12 @@ export class RegistGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    console.log("registguard",this.ownsrv.owner);
+    // console.log("registguard",this.ownsrv.owner);
     let flg:boolean=false;
     if (this.ownsrv.owner.mail == null || typeof this.ownsrv.owner.mail == 'undefined' ){
       this.router.navigate([ '/home' ]);
       return false;
-    } else if (this.ownsrv.owner.flgEx) {
+    } else if (this.ownsrv.flgEx) {
       this.router.navigate([ '/admin' ]);
       return false;
     } else {

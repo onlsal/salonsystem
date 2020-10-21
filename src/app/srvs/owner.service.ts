@@ -6,7 +6,6 @@ export class Owner {
   dojoname:string;
   sei:string;
   mei:string;
-  birth:Date;
   mail:string;
   zip:string;
   region:string;
@@ -16,7 +15,6 @@ export class Owner {
   url:string;
   tel:string;
   folderid:string;
-  flgEx:boolean;
   constructor(init?:Partial<Owner>) {
       Object.assign(this, init);
   }
@@ -27,5 +25,6 @@ export class Owner {
 })
 export class OwnerService {
   public owner:Owner = new Owner();
+  public flgEx:boolean = false;
   constructor() { }
 }

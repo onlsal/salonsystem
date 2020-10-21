@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
             this.ownsrv.owner.mail=this.claim.email;
           } else { 
             this.ownsrv.owner = data.tblowner[0];
-            this.ownsrv.owner.flgEx=true;
+            this.ownsrv.flgEx = true;
           }
         });
     }
@@ -56,11 +56,12 @@ export class HomeComponent implements OnInit {
 
   public login():void{
     this.oauthService.revokeTokenAndLogout();
-    this.oauthService.initLoginFlow();
+    // this.oauthService.initLoginFlow();
+    this.oauthService.initImplicitFlow();
   }
 
   public toRegist():void{
-    console.log("navi前");
+    // console.log("navi前");
     this.router.navigate(['/regist']);
   }
   public toAdmin():void{

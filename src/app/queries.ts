@@ -7,7 +7,6 @@ query get_owner($gid: String!) {
     dojoname
     sei
     mei
-    birth
     mail
     zip
     region
@@ -28,9 +27,15 @@ mutation ins_owner($object: tblowner_insert_input!) {
 }`;
 
 export const InsertForm = gql`
-mutation ins_from($object: tblowner_insert_input!) {
-  insert_tblowner_one(object: $object) {
-    dojoid
-    googleid
+mutation ins_form($objects: [tblform_insert_input!]!) {
+  insert_tblform(objects: $objects) {
+    affected_rows
+  }
+}`;
+
+export const InsertCalender = gql`
+mutation ins_cal($objects: [tblcalender_insert_input!]!) {
+  insert_tblcalender(objects: $objects) {
+    affected_rows
   }
 }`;

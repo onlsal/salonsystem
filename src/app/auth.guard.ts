@@ -16,12 +16,12 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    console.log("authguard",this.ownsrv.owner);
+    // console.log("authguard",this.ownsrv.owner);
     let flg:boolean=false;
     if (this.ownsrv.owner.mail == null || typeof this.ownsrv.owner.mail == 'undefined' ){
       this.router.navigate([ '/home' ]);
       return false;
-    } else if (this.ownsrv.owner.flgEx) {
+    } else if (this.ownsrv.flgEx) {
       return true;
     } else {
       this.router.navigate([ '/regist' ]);
