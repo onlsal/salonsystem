@@ -104,7 +104,7 @@ export class RegistComponent implements OnInit {
       this.cals.push(this.options.value[i].calender);
       // cals += ";" + this.options.value[i].calender;
     }
-    // console.log(this.ownsrv.owner,cals);
+    console.log(this.ownsrv.owner,this.cals);
     var op = gapi.client.request({
       'root': 'https://script.googleapis.com',
       'path': 'v1/scripts/1Q5gqppTVHnenU2m2MWbM83nXpKr7P0OQXwEjzfRRx-zp776Zi9V9wYhn:run',
