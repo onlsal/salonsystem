@@ -249,7 +249,7 @@ export class RegistComponent implements OnInit {
       })
       .valueChanges
       .subscribe(({ data }) => {
-        if (data.tblowner.length==0){
+        if (data.tblowner_aggregate.length==0){
           dojoid=1;
         } else { 
           dojoid = data.tblowner_aggregate.aggregate.max.dojoid + 1;
