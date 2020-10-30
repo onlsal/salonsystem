@@ -100,7 +100,7 @@ export class RegistComponent implements OnInit {
   }
   
   public ins_owner(flg:boolean):void {
-    this.dojoid = this.get_dojoid();
+    this.ownsrv.owner.dojoid = this.get_dojoid();
     for (let i=0;i<this.options.length;i++){
       this.cals.push(this.options.value[i].calender);
       // cals += ";" + this.options.value[i].calender;
@@ -114,7 +114,7 @@ export class RegistComponent implements OnInit {
                   'function': 'registOwner',
                   'parameters':[ this.firstFormGroup.value.nam,
                                  this.cals,
-                                 this.dojoid ]
+                                 this.ownsrv.owner.dojoid ]
                   // 'path': 'v1/scripts/1d_MYVtwUgRlJv-rulQOPVNFHaSCYfzOSF5zVJUnfoGjoYA5stF5vRwrx:run',
               }
 
@@ -157,7 +157,7 @@ export class RegistComponent implements OnInit {
       mutation: Query.InsertOwner,
       variables: {
         "object": {
-          "dojoid": this.dojoid,
+          "dojoid": this.ownsrv.owner.dojoid,
           "googleid": this.ownsrv.owner.googleid,
           "dojoname" : this.firstFormGroup.value.nam,
           "sei" :   this.firstFormGroup.value.sei,
