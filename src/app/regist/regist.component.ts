@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Apollo } from 'apollo-angular';
+import { Observable, Subject } from 'rxjs';
 import * as Query from '../queries';
 import { OwnerService } from '../srvs/owner.service';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
@@ -28,6 +29,7 @@ export class RegistComponent implements OnInit {
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup; 
   cals:string[]=[];
+  dojoid: Subject<number> = new Subject();
 
   constructor( private apollo: Apollo,
     private frmBlder: FormBuilder,
@@ -100,12 +102,18 @@ export class RegistComponent implements OnInit {
   }
   
   public ins_owner(flg:boolean):void {
-    this.ownsrv.owner.dojoid = this.get_dojoid();
+    this.get_dojoid().subscribe(dojoid => {
+      this.ownsrv.owner.dojoid=dojoid;
+      this.regist_owner(flg,dojoid);
+    });
+  }
+
+  private regist_owner(flg:boolean,dojoid:number):void {  
     for (let i=0;i<this.options.length;i++){
       this.cals.push(this.options.value[i].calender);
       // cals += ";" + this.options.value[i].calender;
     }
-    console.log(this.ownsrv.owner,this.cals);
+    // console.log(this.ownsrv.owner,this.cals);
     var op = gapi.client.request({
       'root': 'https://script.googleapis.com',
       'path': 'v1/scripts/1Q5gqppTVHnenU2m2MWbM83nXpKr7P0OQXwEjzfRRx-zp776Zi9V9wYhn:run',
@@ -113,15 +121,12 @@ export class RegistComponent implements OnInit {
       'body': {
                   'function': 'registOwner',
                   'parameters':[ this.firstFormGroup.value.nam,
-                                 this.cals,
-                                 this.ownsrv.owner.dojoid ]
+                                this.cals,
+                                dojoid ]
                   // 'path': 'v1/scripts/1d_MYVtwUgRlJv-rulQOPVNFHaSCYfzOSF5zVJUnfoGjoYA5stF5vRwrx:run',
               }
 
     });
-    // 'parameters':[{ 'email': this.ownsrv.owner.mail,
-    // 'name': this.ownsrv.owner.dojoname,
-    // 'calnames': cals }]
     let self=this;
     op.execute(function(resp) {
       if (resp.error && resp.error.status) {
@@ -134,23 +139,19 @@ export class RegistComponent implements OnInit {
         self.ins_tblowner(resp.response.result);
       }
     });
-     
-
-
-  Email.send({
-    SecureToken : '9853fbc2-4291-42b0-a969-e2c2015d1527',
-    From : 'info@online-salons.net',
-    To : this.ownsrv.owner.mail,
-    Body : 'テスト本文',
-    Subject : 'テスト件名',
-    // Host : 'smtp.kagoya.net',
-    // Username : 'tkdtokyo.os-info',
-    // Password : 'kL7gUEpakkT'
-    }).then( 
-      message => console.log(message)
-     );
-
-  this.router.navigate(['/admin']);
+    Email.send({
+      SecureToken : '9853fbc2-4291-42b0-a969-e2c2015d1527',
+      From : 'info@online-salons.net',
+      To : this.ownsrv.owner.mail,
+      Body : 'テスト本文',
+      Subject : 'テスト件名',
+      // Host : 'smtp.kagoya.net',
+      // Username : 'tkdtokyo.os-info',
+      // Password : 'kL7gUEpakkT'
+      }).then( 
+        message => console.log(message)
+      );
+    this.router.navigate(['/admin']);
   }
   private ins_tblowner(result:any):void {
     this.apollo.mutate<any>({
@@ -242,19 +243,23 @@ export class RegistComponent implements OnInit {
     });
   }
 
-  private get_dojoid():number {
-    let dojoid:number=1;
+  private get_dojoid():Subject<number> {
+    let lc_dojoid;
     this.apollo.watchQuery<any>({
       query: Query.GetQuery2
       })
       .valueChanges
       .subscribe(({ data }) => {
         if (data.tblowner_aggregate.length==0){
-          dojoid=1;
+          lc_dojoid = 1;
+          // console.log(data.tblowner_aggregate,lc_dojoid);
+          this.dojoid.next(lc_dojoid);
         } else { 
-          dojoid = data.tblowner_aggregate.aggregate.max.dojoid + 1;
+          lc_dojoid = data.tblowner_aggregate.aggregate.max.dojoid + 1;
+          // console.log(data.tblowner_aggregate.aggregate.max.dojoid,lc_dojoid);
+          this.dojoid.next(lc_dojoid);
         }
       });
-    return dojoid;
+    return this.dojoid;  
   }
 }
