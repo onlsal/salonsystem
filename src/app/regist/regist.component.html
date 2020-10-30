@@ -2,7 +2,7 @@
 <mat-card style="max-width: 800px;margin: 0 auto;">
   <mat-horizontal-stepper #stepper [linear]="true"> 
     <mat-step [stepControl]="firstFormGroup" label="基本情報入力">   
-      <form [formGroup]="firstFormGroup" class="container" ngDefaultControl ngNativeValidate fxLayout="column" [formGroup]="firstFormGroup">
+      <form [formGroup]="firstFormGroup" class="container" ngDefaultControl ngNativeValidate fxLayout="column">
         <!-- <mat-form-field>
             <mat-label>予約システムアカウントID</mat-label>
             <input matInput numberInput [value]="ownsrv.owner.dojoid" disabled>

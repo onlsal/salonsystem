@@ -44,7 +44,7 @@ export class RegistComponent implements OnInit {
       ], 
        clientId: '913080910103-0s805k1mjsgohs8begmklvrer1lu05ve.apps.googleusercontent.com',
       //  scope: 'exit'
-       scope: 'https://www.googleapis.com/auth/forms https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets'
+       scope: 'https://www.googleapis.com/auth/forms https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/script.scriptapp https://www.googleapis.com/auth/spreadsheets'
      })
 
     });
@@ -100,6 +100,7 @@ export class RegistComponent implements OnInit {
   }
   
   public ins_owner(flg:boolean):void {
+    this.dojoid = this.get_dojoid();
     for (let i=0;i<this.options.length;i++){
       this.cals.push(this.options.value[i].calender);
       // cals += ";" + this.options.value[i].calender;
@@ -112,7 +113,8 @@ export class RegistComponent implements OnInit {
       'body': {
                   'function': 'registOwner',
                   'parameters':[ this.firstFormGroup.value.nam,
-                                 this.cals ]
+                                 this.cals,
+                                 this.dojoid ]
                   // 'path': 'v1/scripts/1d_MYVtwUgRlJv-rulQOPVNFHaSCYfzOSF5zVJUnfoGjoYA5stF5vRwrx:run',
               }
 
@@ -155,6 +157,7 @@ export class RegistComponent implements OnInit {
       mutation: Query.InsertOwner,
       variables: {
         "object": {
+          "dojoid": this.dojoid,
           "googleid": this.ownsrv.owner.googleid,
           "dojoname" : this.firstFormGroup.value.nam,
           "sei" :   this.firstFormGroup.value.sei,
@@ -239,6 +242,19 @@ export class RegistComponent implements OnInit {
     });
   }
 
-
-
+  private get_dojoid():number {
+    let dojoid:number=1;
+    this.apollo.watchQuery<any>({
+      query: Query.GetQuery2
+      })
+      .valueChanges
+      .subscribe(({ data }) => {
+        if (data.tblowner.length==0){
+          dojoid=1;
+        } else { 
+          dojoid = data.tblowner_aggregate.aggregate.max.dojoid + 1;
+        }
+      });
+    return dojoid;
+  }
 }

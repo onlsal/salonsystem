@@ -18,6 +18,17 @@ query get_owner($gid: String!) {
   }
 }`;
 
+export const GetQuery2 = gql`
+query get_dojoid {
+  tblowner_aggregate {
+    aggregate {
+      max {
+        dojoid
+      }
+    }
+  }
+}`;
+
 export const InsertOwner = gql`
 mutation ins_owner($object: tblowner_insert_input!) {
   insert_tblowner_one(object: $object) {

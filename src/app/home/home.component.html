@@ -21,9 +21,11 @@
           </div>
         </mat-step>
     </mat-horizontal-stepper> -->
-    <p> Googleアカウントにログイン後、下記ボタンより、本サービスのアカウントを登録してください <br></p>
     <div [style.display]="claim ? 'block' : 'none'">
-      <button mat-flat-button color="accent" (click)="toRegist()" [style.display]="ownsrv.flgEx ? 'none' : 'block'">Googleアカウント {{email}} で予約管理アカウント登録</button>          
+      <div [style.display]="ownsrv.flgEx ? 'none' : 'block'">
+        <p> Googleアカウントにログイン後、下記ボタンより、本サービスのアカウントを登録してください <br></p>
+        <button mat-flat-button color="accent" (click)="toRegist()">Googleアカウント {{email}} で予約管理アカウント登録</button>          
+      </div>
       <button mat-flat-button color="accent" (click)="toAdmin()" [style.display]="ownsrv.flgEx ? 'block' : 'none'">{{ownsrv.owner.dojoname}} 様の予約管理画面へ</button>
     </div>
 </mat-card>
