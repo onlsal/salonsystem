@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
 
   // 初期処理
   private async oauthInit() {
+
     this.oauthService.setStorage(localStorage);
     await this.oauthService.setupAutomaticSilentRefresh();
   // この非同期処理を行わないとユーザー情報が取得できない

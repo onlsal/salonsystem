@@ -25,7 +25,7 @@ export const authConfig: AuthConfig = {
   // The api scope is a usecase specific one
   // requestAccessToken: false,
 
-  scope: 'openid profile email https://www.googleapis.com/auth/forms https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/script.scriptapp https://www.googleapis.com/auth/spreadsheets',
+  scope: 'openid profile email', //https://www.googleapis.com/auth/forms https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/script.scriptapp https://www.googleapis.com/auth/spreadsheets',
 
   showDebugInformation: true,
 
