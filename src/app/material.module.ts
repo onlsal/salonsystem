@@ -13,6 +13,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 
@@ -32,6 +33,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
      ,MatSelectModule
      ,MatStepperModule
      ,MatTableModule
+     ,MatTabsModule
      ,MatToolbarModule
      ,MatNativeDateModule
   ],

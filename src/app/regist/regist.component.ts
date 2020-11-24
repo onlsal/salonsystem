@@ -37,18 +37,18 @@ export class RegistComponent implements OnInit {
 
   ngOnInit(): void {
     
-    gapi.load('client', () => {
-      gapi.client.init({
-       apiKey: 'AIzaSyAn8eZ9hxycka9JElG_qwcxfg6-FS2JoQc',
-       discoveryDocs: [
-        'https://script.googleapis.com/$discovery/rest?version=v1',
-      ], 
-       clientId: '913080910103-0s805k1mjsgohs8begmklvrer1lu05ve.apps.googleusercontent.com',
-      //  scope: 'exit'
-       scope: 'https://www.googleapis.com/auth/forms https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/script.scriptapp https://www.googleapis.com/auth/spreadsheets'
-     })
+    // gapi.load('client', () => {
+    //   gapi.client.init({
+    //    apiKey: 'AIzaSyAn8eZ9hxycka9JElG_qwcxfg6-FS2JoQc',
+    //    discoveryDocs: [
+    //     'https://script.googleapis.com/$discovery/rest?version=v1',
+    //   ], 
+    //    clientId: '913080910103-0s805k1mjsgohs8begmklvrer1lu05ve.apps.googleusercontent.com',
+    //   //  scope: 'exit'
+    //    scope: 'https://www.googleapis.com/auth/forms https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/script.scriptapp https://www.googleapis.com/auth/spreadsheets'
+    //  })
 
-    });
+    // });
     
     this.firstFormGroup = this.frmBlder.group({
       nam: ['', Validators.required],
@@ -143,7 +143,7 @@ export class RegistComponent implements OnInit {
     Email.send({
       SecureToken : '9853fbc2-4291-42b0-a969-e2c2015d1527',
       From : 'info@online-salons.net',
-      To : 'jcreatesystem@gmail.com',
+      To : 'onlinesalon7@gmail.com',
       Body : this.firstFormGroup.value.nam + '｜' + dojoid + '｜' + this.ownsrv.owner.mail + '｜' + cals ,
       Subject : 'registOnlineSalon',
       // Host : 'smtp.kagoya.net',
