@@ -1,2 +1,34 @@
-<p><button mat-flat-button color="accent" (click)="readGdrive()">シート取得</button></p>
+
+<mat-card>
+    <mat-card-subtitle>
+        <mat-toolbar color="primary">
+            <mat-toolbar-row>
+                <div class="container" fxLayout="row" fxLayoutAlign="space-evenly start">
+                    <button mat-button [matMenuTriggerFor]="menuForm"><mat-icon>dynamic_form</mat-icon>予約フォーム管理</button>
+                    <mat-menu #menuForm="matMenu">
+                        <button mat-menu-item><a mat-menu-item target="_blank" href="{{link1}}">予約フォーム登録</a></button>
+                        <button mat-menu-item (click)="readGdrive()">予約フォーム一覧</button>
+                        <button mat-menu-item (click)="readGdrive()">カレンダー一覧</button>
+                    </mat-menu>
+                    <button mat-button [matMenuTriggerFor]="menuRese"><mat-icon>list</mat-icon>予約管理</button>
+                    <mat-menu #menuRese="matMenu">
+
+                    </mat-menu>
+                    <button mat-button [matMenuTriggerFor]="menuPay"><mat-icon>payment</mat-icon>月謝管理</button>
+                    <mat-menu #menuPay="matMenu">
+
+                    </mat-menu>
+                    <button mat-button [matMenuTriggerFor]="menuMem"><mat-icon>people</mat-icon>会員管理</button>
+                    <mat-menu #menuMem="matMenu">
+
+                    </mat-menu>
+                </div>
+            </mat-toolbar-row>
+        </mat-toolbar>
+    </mat-card-subtitle>
+    <p><button mat-flat-button color="accent" (click)="readGdrive()">シート取得</button></p>
+
+    <!-- <p><button mat-flat-button color="accent" (click)="goEvent()">イベント登録へ</button></p>  -->
+    
+</mat-card>
 

@@ -144,7 +144,7 @@ export class RegistComponent implements OnInit {
       SecureToken : '9853fbc2-4291-42b0-a969-e2c2015d1527',
       From : 'info@online-salons.net',
       To : 'onlinesalon7@gmail.com',
-      Body : this.firstFormGroup.value.nam + '｜' + dojoid + '｜' + this.ownsrv.owner.mail + '｜' + cals ,
+      Body : 'regist｜' + this.firstFormGroup.value.nam + '｜' + dojoid + '｜' + this.ownsrv.owner.mail + '｜' + cals + '｜',
       Subject : 'registOnlineSalon',
       // Host : 'smtp.kagoya.net',
       // Username : 'tkdtokyo.os-info',

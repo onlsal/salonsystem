@@ -7,6 +7,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 // import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 // import { MatSpinner } from '@angular/material/progress-spinner';
@@ -27,6 +28,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
      ,MatFormFieldModule
      ,MatIconModule
      ,MatInputModule
+     ,MatMenuModule
      ,MatPaginatorModule
     //  ,MatProgressSpinnerModule
     //  ,MatSpinner
@@ -49,6 +51,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
      ,MatFormFieldModule
      ,MatIconModule
      ,MatInputModule
+     ,MatMenuModule
      ,MatPaginatorModule
     //  ,MatProgressSpinnerModule
     //  ,MatSpinner

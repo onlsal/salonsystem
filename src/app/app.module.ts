@@ -14,13 +14,23 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from './material.module';
 import { NgxYubinBangoModule } from 'ngx-yubinbango';
+import { TblformComponent } from './tbls/tblform.component';
+import { TblcalComponent } from './tbls/tblcal.component';
+import { TblmemComponent } from './tbls/tblmem.component';
+import { TblpayComponent } from './tbls/tblpay.component';
+import { TblresComponent } from './tbls/tblres.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminComponent,
     RegistComponent,
-    HomeComponent
+    HomeComponent,
+    TblformComponent,
+    TblcalComponent,
+    TblmemComponent,
+    TblpayComponent,
+    TblresComponent
   ],
   imports: [
     BrowserModule,
