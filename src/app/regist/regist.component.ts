@@ -5,6 +5,8 @@ import { Observable, Subject } from 'rxjs';
 import * as Query from '../queries';
 import { OwnerService } from '../srvs/owner.service';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
 
 declare let Email: any;
 declare const gapi: any;
@@ -30,10 +32,11 @@ export class RegistComponent implements OnInit {
   thirdFormGroup: FormGroup; 
   dojoid: Subject<number> = new Subject();
 
-  constructor( private apollo: Apollo,
-    private frmBlder: FormBuilder,
-    private router: Router,
-    public ownsrv: OwnerService ) { }
+  constructor(private apollo: Apollo,
+              private frmBlder: FormBuilder,
+              private router: Router,
+              public ownsrv: OwnerService,
+              public dialog: MatDialog) { }
 
   ngOnInit(): void {
     
@@ -152,7 +155,7 @@ export class RegistComponent implements OnInit {
       }).then( 
         message => console.log(message)
       );
-    this.ins_tblowner();  
+    this.ins_tblowner(); 
   }
   private ins_tblowner():void {
     this.apollo.mutate<any>({
@@ -212,6 +215,13 @@ export class RegistComponent implements OnInit {
       //   });
       // }
       // this.ins_tblcal(calobj);
+      let dialog = this.dialog.open(DialogComponent ,{
+                        'data' : {'mail' : this.ownsrv.owner.mail},
+                        'height' : '300px',
+                        'width' : '500px',
+                        'disableClose' : false
+                        });
+      this.router.navigate(['/admin']);
     },(error) => {
       console.log('error Insertownertbl', error);
     });

@@ -19,6 +19,7 @@ import { TblcalComponent } from './tbls/tblcal.component';
 import { TblmemComponent } from './tbls/tblmem.component';
 import { TblpayComponent } from './tbls/tblpay.component';
 import { TblresComponent } from './tbls/tblres.component';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { TblresComponent } from './tbls/tblres.component';
     TblcalComponent,
     TblmemComponent,
     TblpayComponent,
-    TblresComponent
+    TblresComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +47,7 @@ import { TblresComponent } from './tbls/tblres.component';
     MaterialModule,
     NgxYubinBangoModule
   ],
+  entryComponents: [ DialogComponent ],
   providers: [],
   bootstrap: [AppComponent]
 })
