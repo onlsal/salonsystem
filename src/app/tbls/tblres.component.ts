@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-tblres',
   templateUrl: './tblres.component.html',
-  styleUrls: ['./tblres.component.sass']
+  styleUrls: ['./tbl.component.scss']
 })
 export class TblresComponent implements OnInit {
 

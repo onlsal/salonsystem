@@ -1,15 +1,18 @@
 <mat-card>
-  <p> 本サービスはGoogleアカウントを使用します。<br>Googleアカウントがない方は、新規アカウントを作成してください </p>
+  <p> 本サービスはGoogleアカウントを使用します。<br>Googleアカウントがない方は、新規アカウントを作成してください。</p>
   <p><a href="https://accounts.google.com/signup" mat-flat-button target="blank" color="warn">googleアカウント作成(別window)</a><br></p>
-  <p> Googleアカウントをお持ちの方は、ログインしてください <br></p>
+  <p> Googleアカウントをお持ちの方は、ログインしてください。<br>別のGoogleアカウントで登録する場合も下記ボタンを押してください。</p>
   <button style="border:0;background:none;" (click)="login()">
 　　  <img src="assets/btn_google_signin_dark_normal_web.png" />
   </button> 
   <div [style.display]="claim ? 'block' : 'none'">
     <div [style.display]="ownsrv.flgEx ? 'none' : 'block'">
-      <p> Googleアカウントにログイン後、下記ボタンより、当サービスのアカウントを登録してください <br></p>
+      <p> Googleアカウントにログイン後、下記ボタンより、当サービスのアカウントを登録してください。<br></p>
       <button mat-flat-button color="accent" (click)="toRegist()">Googleアカウント {{email}} で予約管理アカウント登録</button>          
     </div>
-    <button mat-flat-button color="accent" (click)="toAdmin()" [style.display]="ownsrv.flgEx ? 'block' : 'none'">{{ownsrv.owner.dojoname}} 様の予約管理画面へ</button>
+    <div [style.display]="ownsrv.flgEx ? 'block' : 'none'">
+      <p> 下記ボタンより、管理画面へ移動します。<br></p>
+      <button mat-flat-button color="accent" (click)="toAdmin()">{{ownsrv.owner.dojoname}} 様の予約管理画面へ</button>
+    </div>  
   </div>
 </mat-card>

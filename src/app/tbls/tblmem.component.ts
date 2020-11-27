@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-tblmem',
   templateUrl: './tblmem.component.html',
-  styleUrls: ['./tblmem.component.sass']
+  styleUrls: ['./tbl.component.scss']
 })
 export class TblmemComponent implements OnInit {
 

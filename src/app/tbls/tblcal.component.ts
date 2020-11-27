@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-tblcal',
   templateUrl: './tblcal.component.html',
-  styleUrls: ['./tblcal.component.sass']
+  styleUrls: ['./tbl.component.scss']
 })
 export class TblcalComponent implements OnInit {
 

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-tblpay',
   templateUrl: './tblpay.component.html',
-  styleUrls: ['./tblpay.component.sass']
+  styleUrls: ['./tbl.component.scss']
 })
 export class TblpayComponent implements OnInit {
 
