@@ -1,11 +1,17 @@
 <div class="mat-elevation-z8">    
-    <mat-toolbar fxLayout="row" fxLayoutGap="5px">
-      <mat-form-field>
-        <input matInput placeholder="カレンダー名入力" [(ngModel)]="name">
-      </mat-form-field>      
-      <button mat-flat-button color="accent" (click)="insCal()">のカレンダーを追加</button>
-      <button mat-flat-button (click)="reRead()">表示更新</button>
-      <a mat-flat-button target="_blank" href="https://www.tokaido.tokyo/user_data/download/SalonManual/owner/13.pdf"><mat-icon>help</mat-icon>PDFマニュアル</a>
+    <mat-toolbar fxLayout="column">
+      <mat-toolbar-row style="height: 150px;">
+        <qr-code [value]="admsrv.link2" [size]="130"></qr-code>
+        <p style="white-space:normal; min-width:200px;">{{admsrv.link2}}</p>
+      </mat-toolbar-row>
+      <mat-toolbar-row fxLayoutGap="5px">
+        <mat-form-field>
+          <input matInput placeholder="カレンダー名入力" [(ngModel)]="name">
+        </mat-form-field>      
+        <button mat-flat-button color="accent" (click)="insCal()">のカレンダーを追加</button>
+        <button mat-flat-button (click)="reRead()">表示更新</button>
+        <a mat-flat-button target="_blank" href="https://www.tokaido.tokyo/user_data/download/SalonManual/owner/13.pdf"><mat-icon>help</mat-icon>PDFマニュアル</a>  
+      </mat-toolbar-row>
     </mat-toolbar>
     <table mat-table [dataSource]="dataSource" class="full-width-table" aria-label="Elements">
         <ng-container matColumnDef="name">

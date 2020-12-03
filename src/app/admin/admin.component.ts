@@ -91,6 +91,7 @@ export class AdminComponent implements OnInit {
     this.gDrive.load( fileId ,'oe1ilbc')
     .then( ( data :any) => {
       this.admsrv.cals=[];
+      this.admsrv.link2='https://calendar.google.com/calendar/embed?';
       // this.admsrv.cals = data.filter(e => e.dojoid == this.ownsrv.owner.dojoid);
       for(let i=0;i<data.length;i++){
         if(data[i].dojoid == this.ownsrv.owner.dojoid) {
@@ -105,8 +106,10 @@ export class AdminComponent implements OnInit {
             cal.del = data[i].del;
           }
           this.admsrv.cals.push(cal);
+          this.admsrv.link2 = this.admsrv.link2 + 'src=' + cal.calid + '&'
         } 
       }
+      this.admsrv.link2 = this.admsrv.link2 + 'ctz=Asia%2FTokyo';
       // console.log(this.admsrv.cals);
       this.admsrv.cals.sort(function(a, b) {
         if (a.del > b.del) {

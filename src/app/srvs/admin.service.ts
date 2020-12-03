@@ -90,6 +90,7 @@ export class AdminService {
   public mails:Mail[] =[];
   public link0:string;
   public link1:string;
+  public link2:string;
   public sprid:string;
   public wshid:string;
 
