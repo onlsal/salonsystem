@@ -1,0 +1,48 @@
+<div class="mat-elevation-z8">    
+    <mat-toolbar fxLayout="row" fxLayoutGap="5px">
+      <button mat-flat-button color="accent" (click)="insertRow()">パターン追加</button >
+      <a mat-flat-button color="accent" target="_blank" href="{{admsrv.link1}}">事前入力URL取得</a>
+      <a mat-flat-button target="_blank" href="https://www.tokaido.tokyo/user_data/download/SalonManual/owner/12.pdf"><mat-icon>help</mat-icon>PDFマニュアル</a>
+    </mat-toolbar>
+    <table mat-table [dataSource]="dataSource" class="full-width-table" matSort aria-label="Elements">
+    
+    <ng-container matColumnDef="pattern">
+        <th mat-header-cell *matHeaderCellDef>num</th>
+        <td mat-cell *matCellDef="let row">{{row.pattern}}</td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>パターン名</th>
+        <td mat-cell *matCellDef="let row; let i = index">
+            <mat-form-field>
+                <input matInput [(ngModel)]="row.name" (blur)="updateRow(i, 'name', row.name)">
+            </mat-form-field> 
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="memo">
+        <th mat-header-cell *matHeaderCellDef>メモ</th>
+        <td mat-cell *matCellDef="let row; let i = index">
+            <mat-form-field>
+                <input matInput [(ngModel)]="row.memo" (blur)="updateRow(i, 'memo', row.memo)">
+            </mat-form-field> 
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="url">
+        <th mat-header-cell *matHeaderCellDef>事前入力url</th>
+        <td mat-cell *matCellDef="let row; let i = index">
+            <mat-form-field>
+                <input matInput [(ngModel)]="row.url" (blur)="updateRow(i, 'url', row.url)">
+            </mat-form-field> 
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="act1">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let row; let i = index" class="tbl_bt">
+          <button mat-raised-button color="warn" focusable="false" (click)="deleteRow(i)">
+            <mat-icon>delete_forever</mat-icon>Del
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>      
+    </table>  
+</div>

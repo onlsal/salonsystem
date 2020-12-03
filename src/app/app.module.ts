@@ -20,6 +20,11 @@ import { TblmemComponent } from './tbls/tblmem.component';
 import { TblpayComponent } from './tbls/tblpay.component';
 import { TblresComponent } from './tbls/tblres.component';
 import { DialogComponent } from './dialog/dialog.component';
+import { TblfpatComponent } from './tbls/tblfpat.component';
+import { ConfirmComponent } from './dialog/confirm.component';
+import { QRCodeModule } from 'angular2-qrcode';
+import { SendmailComponent } from './dialog/sendmail.component';
+import { TblmailComponent } from './tbls/tblmail.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +37,11 @@ import { DialogComponent } from './dialog/dialog.component';
     TblmemComponent,
     TblpayComponent,
     TblresComponent,
-    DialogComponent
+    DialogComponent,
+    TblfpatComponent,
+    ConfirmComponent,
+    SendmailComponent,
+    TblmailComponent
   ],
   imports: [
     BrowserModule,
@@ -45,9 +54,14 @@ import { DialogComponent } from './dialog/dialog.component';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    NgxYubinBangoModule
+    NgxYubinBangoModule,
+    QRCodeModule 
   ],
-  entryComponents: [ DialogComponent ],
+  entryComponents: [ 
+    DialogComponent,
+    ConfirmComponent,
+    SendmailComponent
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

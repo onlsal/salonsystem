@@ -1,40 +1,72 @@
-
+<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+  <h2>{{ownsrv.owner.dojoname}} 様 オンラインサロン予約システム 管理画面</h2>
+  <a mat-flat-button target="_blank" href="https://www.tokaido.tokyo/user_data/download/SalonManual/owner/10.pdf"><mat-icon>help</mat-icon>PDFマニュアル</a>
+</mat-toolbar>
 <mat-card>
-    <mat-card-subtitle>
-        <mat-toolbar color="primary">
-            <mat-toolbar-row>
-                <div class="container" fxLayout="row" fxLayoutAlign="space-evenly start">
-                    <button mat-button [matMenuTriggerFor]="menuForm"><mat-icon>dynamic_form</mat-icon>予約フォーム管理</button>
-                    <mat-menu #menuForm="matMenu">
-                        <button mat-menu-item><a mat-menu-item target="_blank" href="{{link1}}">予約フォーム登録</a></button>
-                        <button mat-menu-item (click)="readGdrive()">予約フォーム一覧</button>
-                        <button mat-menu-item (click)="readGdrive()">カレンダー一覧</button>
-                    </mat-menu>
-                    <button mat-button [matMenuTriggerFor]="menuRese"><mat-icon>list</mat-icon>予約管理</button>
-                    <mat-menu #menuRese="matMenu">
-
-                    </mat-menu>
-                    <button mat-button [matMenuTriggerFor]="menuPay"><mat-icon>payment</mat-icon>月謝管理</button>
-                    <mat-menu #menuPay="matMenu">
-
-                    </mat-menu>
-                    <button mat-button [matMenuTriggerFor]="menuMem"><mat-icon>people</mat-icon>会員管理</button>
-                    <mat-menu #menuMem="matMenu">
-
-                    </mat-menu>
-                </div>
-            </mat-toolbar-row>
-        </mat-toolbar>
-    </mat-card-subtitle>
-    <p><button mat-flat-button color="accent" (click)="readGdrive()">シート取得</button></p>
-
-    <!-- <p><button mat-flat-button color="accent" (click)="goEvent()">イベント登録へ</button></p>  -->
-    <mat-card-content>
-    
-    <app-tblform></app-tblform>
-    </mat-card-content>
-    
-        
-    
+  <mat-tab-group [(selectedIndex)]="TabIndex" [backgroundColor]="'primary'" >
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">dynamic_form</mat-icon>
+        予約フォーム
+      </ng-template>
+      <mat-card-content>
+        <app-tblform (action)="readGdrive()" (action2)="goList()"></app-tblform>
+      </mat-card-content>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">insert_link</mat-icon>
+        予約フォームパターン
+      </ng-template>
+      <mat-card-content>
+        <app-tblfpat></app-tblfpat>
+      </mat-card-content>
+    </mat-tab> 
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">event</mat-icon>
+        カレンダー管理
+      </ng-template>
+      <mat-card-content>
+        <app-tblcal (action)="readGdrive()"></app-tblcal>
+      </mat-card-content>
+    </mat-tab> 
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">list</mat-icon>
+        予約管理
+      </ng-template>
+      <mat-card-content>
+        <app-tblres></app-tblres>
+      </mat-card-content>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">mail</mat-icon>
+        メール送信履歴
+      </ng-template>
+      <mat-card-content>  
+        <app-tblmail></app-tblmail>
+      </mat-card-content>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">payment</mat-icon>
+        月謝管理
+      </ng-template>
+      <mat-card-content>  
+        決済契約後、導入予定
+      </mat-card-content>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon">people</mat-icon>
+          会員管理
+      </ng-template>
+      <mat-card-content>  
+        作成中
+      </mat-card-content>
+    </mat-tab>
+  </mat-tab-group>
 </mat-card>
 

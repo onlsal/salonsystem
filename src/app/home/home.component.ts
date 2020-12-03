@@ -4,6 +4,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { Apollo } from 'apollo-angular';
 import * as Query from '../queries';
 import { OwnerService } from '../srvs/owner.service';
+import { AdminService, Fpat, Mail } from '../srvs/admin.service';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,8 @@ export class HomeComponent implements OnInit {
   constructor(private oauthService: OAuthService,
               private router: Router,
               private apollo: Apollo,
-              public ownsrv: OwnerService ) { }
+              public ownsrv: OwnerService,
+              public admsrv: AdminService ) { }
 
   ngOnInit(): void {
     this.oauthInit();
@@ -50,6 +52,17 @@ export class HomeComponent implements OnInit {
           } else { 
             this.ownsrv.owner = data.tblowner[0];
             this.ownsrv.flgEx = true;
+            for(let i=0;i<data.tblowner[0].tblforms.length;i++){
+              // console.log(data.tblowner[0].tblforms[i]);
+              // delete data.tblowner[0].tblforms[i]['__typename'];
+              // console.log(data.tblowner[0].tblforms[i]);
+              let fpat:Fpat = new Fpat(data.tblowner[0].tblforms[i]);
+              this.admsrv.fpats.push(fpat);
+            }
+            for(let i=0;i<data.tblowner[0].tblmaillogs.length;i++){  
+              let mail:Mail = new Mail(data.tblowner[0].tblmaillogs[i]);
+              this.admsrv.mails.push(mail);
+            }
           }
         });
     }

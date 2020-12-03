@@ -1,0 +1,28 @@
+<h2>一斉メール送信</h2>
+<mat-card>
+  <form class="container" fxLayout="column">  
+    <mat-form-field>
+        <mat-label>返信先</mat-label>
+        <input matInput name="from" [(ngModel)]="admsrv.mail.from" required>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>送信元名称</mat-label>
+        <input matInput name="fromnm" [(ngModel)]="admsrv.mail.fromnm">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>件名</mat-label>
+        <input matInput name="subject" [(ngModel)]="admsrv.mail.subject" required>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>本文</mat-label>
+        <textarea matInput
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="5"
+                  name="body"[(ngModel)]="admsrv.mail.body" required></textarea>
+    </mat-form-field>
+    <div>
+        <button mat-raised-button [mat-dialog-close]="true" cdkFocusInitial>この内容で送信</button>
+        <button mat-raised-button (click)="onNoClick()">キャンセル</button>
+    </div>
+  </form>
+</mat-card>

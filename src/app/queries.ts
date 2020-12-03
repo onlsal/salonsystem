@@ -15,6 +15,22 @@ query get_owner($gid: String!) {
     extend
     url
     tel
+    tblforms {
+      dojoid
+      pattern
+      name
+      memo
+      url
+    }
+    tblmaillogs(order_by: {created_at: desc}) {
+      dojoid
+      created_at
+      subject
+      body
+      sendto
+      from
+      fromnm
+    }    
   }
 }`;
 
@@ -37,16 +53,24 @@ mutation ins_owner($object: tblowner_insert_input!) {
   }
 }`;
 
-export const InsertForm = gql`
-mutation ins_form($objects: [tblform_insert_input!]!) {
+export const InsertForms = gql`
+mutation ins_forms($objects: [tblform_insert_input!]!) {
   insert_tblform(objects: $objects) {
     affected_rows
   }
 }`;
 
-export const InsertCalender = gql`
-mutation ins_cal($objects: [tblcalender_insert_input!]!) {
-  insert_tblcalender(objects: $objects) {
+export const DeleteForms= gql`
+mutation del_forms($did: Int!) {
+  delete_tblform(where: {dojoid: {_eq: $did}}) {
     affected_rows
+  }
+}`;
+
+export const InsertMaillog = gql`
+mutation ins_maillog($object: tblmaillog_insert_input!) {
+  insert_tblmaillog_one(object: $object) {
+    id
+    dojoid
   }
 }`;

@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GoogleDriveProvider } from '../prvs/googledrive';
 import { OwnerService } from '../srvs/owner.service';
-import { AdminService, Form } from '../srvs/admin.service';
+import { AdminService, Form, Cal } from '../srvs/admin.service';
+import { TblresComponent } from '../tbls/tblres.component';
+import { Apollo } from 'apollo-angular';
+import * as Query from '../queries';
 
 class Mst {
   dojoid:number;
@@ -19,44 +22,40 @@ class Mst {
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.sass'],
+  styleUrls: ['./admin.component.scss'],
   providers: [ GoogleDriveProvider ]
 })
 
-
 export class AdminComponent implements OnInit {
-
+  @ViewChild(TblresComponent) tblres:TblresComponent;
   public ids:Mst;
-  public link1:string;
-  constructor(public gDrive: GoogleDriveProvider,
+  public TabIndex:number=0;
+  constructor(private apollo: Apollo,
+              public gDrive: GoogleDriveProvider,
               public ownsrv: OwnerService,
               public admsrv: AdminService  ) { }
 
   ngOnInit(): void {
-    this.readGdrive();
-
-    
+    this.readGdrive();    
   }
 
-
   readGdrive():void {
-
-    let fileId = '/1oyfyrhxl4vLGG2TGS1Yai9ltfyd3Mwg-YxFe3DRns-U';
-    this.gDrive.load( fileId ,'/od6')
+    let fileId = '1oyfyrhxl4vLGG2TGS1Yai9ltfyd3Mwg-YxFe3DRns-U';
+    this.gDrive.load( fileId ,'od6')
     .then( ( data :any) => {
       // let idsdata:Mst[] = data;
       // console.log(this.ids,this.ownsrv.owner.dojoid);
       this.ids = data.find(e => e.dojoid == this.ownsrv.owner.dojoid);
-      this.link1="https://docs.google.com/forms/d/" + this.ids.form0 + "/viewform";
-      this.gDrive.load( '/' + this.ids.spread , '/' + this.ids.wid)
+      this.admsrv.link0="https://docs.google.com/forms/d/" + this.ids.form0 + "/viewform";
+      this.admsrv.link1="https://docs.google.com/forms/d/" + this.ids.form0 + "/prefill";
+      this.admsrv.sprid=this.ids.spread;
+      this.gDrive.load( this.ids.spread , this.ids.wid)
       .then( ( data :any) => {
-        
-        let form:Form = new Form();
         for (let i=0;i<data.length;i++){
           let form:Form = new Form();
           form.tstmp = data[i]['タイムスタンプ'];
           form.title = data[i]['予約フォームタイトル'];
-          form.type = data[i]['予約フォームパターン'].split('＿')[0];
+          form.type = data[i]['予約フォームパターン'].split('＿')[0].slice( 1 );
           form.cal = data[i]['登録先カレンダー'].split('＿')[0];
           form.desc = data[i]['概要説明'];
           form.date = data[i]['開催日'];
@@ -70,8 +69,16 @@ export class AdminComponent implements OnInit {
           form.sheetid = data[i].sheetid;
           form.wid = data[i].wid;
           form.del = data[i].del;
+          form.sprid = this.ids.spread;
           this.admsrv.forms.push(form);
         }
+        this.admsrv.forms.sort(function(a, b) {
+          if (a.date > b.date) {
+            return -1;
+          } else {
+            return 1;
+          } 
+        });
         this.admsrv.subject.next();
       }, (error) => {
         console.log( error );
@@ -81,12 +88,62 @@ export class AdminComponent implements OnInit {
     }, (error) => {
       console.log( error );
     });
-    this.gDrive.load( fileId ,'/oe1ilbc')
+    this.gDrive.load( fileId ,'oe1ilbc')
     .then( ( data :any) => {
-      // let calsdata:Cal[] = data;
-      this.admsrv.cals = data.filter(e => e.dojoid == this.ownsrv.owner.dojoid);
+      this.admsrv.cals=[];
+      // this.admsrv.cals = data.filter(e => e.dojoid == this.ownsrv.owner.dojoid);
+      for(let i=0;i<data.length;i++){
+        if(data[i].dojoid == this.ownsrv.owner.dojoid) {
+          let cal:Cal=new Cal();
+          cal.dojoid = data[i].dojoid;
+          cal.calid = data[i].calid;
+          cal.name = data[i].name;
+          cal.url = 'https://calendar.google.com/calendar/embed?src=' + cal.calid + '&ctz=Asia%2FTokyo';
+          if(typeof data[i].del == 'undefined') {
+            cal.del = '　';
+          } else {
+            cal.del = data[i].del;
+          }
+          this.admsrv.cals.push(cal);
+        } 
+      }
+      // console.log(this.admsrv.cals);
+      this.admsrv.cals.sort(function(a, b) {
+        if (a.del > b.del) {
+          return 1;
+        } else {
+          return -1;
+        } 
+      });
+      // console.log(this.admsrv.cals);
     }, (error) => {
       console.log( error );
     });
   }
+  refresh(){
+    this.admsrv.clear();
+    this.readGdrive();
+  }
+  goList(){
+    this.TabIndex = 3;
+    this.tblres.readJoin();
+  }
+  ins_maillog(){
+    this.apollo.mutate<any>({
+      mutation: Query.InsertMaillog,
+      variables: {
+        "object": {
+          "dojoid" : this.ownsrv.owner.dojoid,
+          "subject": this.admsrv.mail.subject,
+          "body"   : this.admsrv.mail.body,
+          "sendto" : this.admsrv.mail.sendto
+        }
+      },
+    }).subscribe(({ data }) => {
+
+    },(error) => {
+      console.log('error Insertmailtbl', error);
+    });
+  }
+
 }

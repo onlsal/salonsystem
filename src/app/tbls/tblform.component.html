@@ -1,54 +1,83 @@
 <div class="mat-elevation-z8">    
-    <table mat-table [dataSource]="dataSource" class="full-width-table" matSort aria-label="Elements">
-      <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef>タイトル</th>
-        <td mat-cell *matCellDef="let row">{{row.title}}</td>
-      </ng-container>
-      <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef>パターン</th>
-        <td mat-cell *matCellDef="let row">{{row.type}}</td>
-      </ng-container>
-      <ng-container matColumnDef="cal">
-        <th mat-header-cell *matHeaderCellDef>登録先カレンダ</th>
-        <td mat-cell *matCellDef="let row">{{row.cal}}</td>
-      </ng-container>
-      <ng-container matColumnDef="desc">
-        <th mat-header-cell *matHeaderCellDef>概要</th>
-        <td mat-cell *matCellDef="let row">{{row.desc}}</td>
-      </ng-container>
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef>開催日</th>
-        <td mat-cell *matCellDef="let row">{{row.date}}</td>
-      </ng-container>     
-      <ng-container matColumnDef="stim">
-        <th mat-header-cell *matHeaderCellDef>開始時刻</th>
-        <td mat-cell *matCellDef="let row">{{row.stim}}</td>
-      </ng-container>
-      <ng-container matColumnDef="etim">
-        <th mat-header-cell *matHeaderCellDef>終了時刻</th>
-        <td mat-cell *matCellDef="let row">{{row.etim}}</td>
-      </ng-container>
-      <ng-container matColumnDef="capa">
-        <th mat-header-cell *matHeaderCellDef>定員</th>
-        <td mat-cell *matCellDef="let row" class="i_num">{{row.capa}}名</td>
-      </ng-container>                    
-      <ng-container matColumnDef="money">
-        <th mat-header-cell *matHeaderCellDef>金額</th>
-        <td mat-cell *matCellDef="let row" class="i_num">{{row.money | number}}</td>
-      </ng-container>
-      <ng-container matColumnDef="tstmp">
-        <th mat-header-cell *matHeaderCellDef>タイムスタンプ</th>
-        <td mat-cell *matCellDef="let row">{{row.tstmp}}</td>
-      </ng-container>
-      <ng-container matColumnDef="act1">
-        <th mat-header-cell *matHeaderCellDef> Action </th>
-        <td mat-cell *matCellDef="let row; let i = index" class="i_num">
-          <button mat-raised-button color="warn" focusable="false" (click)="deleteRow(i)">
-            <mat-icon>delete_forever</mat-icon>Del
-          </button>
-        </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  </div>
+  <mat-toolbar fxLayout="row" fxLayoutGap="5px">
+    <a mat-flat-button color="accent" target="_blank" href="{{admsrv.link0}}">パターンなしで登録</a>      
+    <button mat-flat-button color="accent" [matMenuTriggerFor]="patmenu">パターンから登録</button>
+    <mat-menu #patmenu="matMenu">
+      <a mat-menu-item href="{{fpat.url}}" target="_blank" *ngFor="let fpat of admsrv.fpats">
+        {{fpat.name}}
+      </a>
+    </mat-menu> 
+    <button mat-flat-button (click)="reRead()">表示更新</button>
+    <a mat-flat-button target="_blank" href="https://www.tokaido.tokyo/user_data/download/SalonManual/owner/11.pdf"><mat-icon>help</mat-icon>PDFマニュアル</a>
+  </mat-toolbar>
+  <table mat-table [dataSource]="dataSource" class="full-width-table" aria-label="Elements">
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>開催日</th>
+      <td mat-cell *matCellDef="let row">{{row.date}}</td>
+    </ng-container>  
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef>タイトル</th>
+      <td mat-cell *matCellDef="let row">{{row.title}}</td>
+    </ng-container>
+    <ng-container matColumnDef="cal">
+      <th mat-header-cell *matHeaderCellDef>登録先カレンダ</th>
+      <td mat-cell *matCellDef="let row">{{row.cal}}</td>
+    </ng-container>
+    <ng-container matColumnDef="desc">
+      <th mat-header-cell *matHeaderCellDef>概要</th>
+      <td mat-cell *matCellDef="let row">{{row.desc}}</td>
+    </ng-container>
+    <ng-container matColumnDef="stim">
+      <th mat-header-cell *matHeaderCellDef>開始時刻</th>
+      <td mat-cell *matCellDef="let row">{{row.stim}}</td>
+    </ng-container>
+    <ng-container matColumnDef="etim">
+      <th mat-header-cell *matHeaderCellDef>終了時刻</th>
+      <td mat-cell *matCellDef="let row">{{row.etim}}</td>
+    </ng-container>
+    <ng-container matColumnDef="capa">
+      <th mat-header-cell *matHeaderCellDef>定員</th>
+      <td mat-cell *matCellDef="let row" class="i_num">{{row.capa}}名</td>
+    </ng-container>                    
+    <ng-container matColumnDef="money">
+      <th mat-header-cell *matHeaderCellDef>金額</th>
+      <td mat-cell *matCellDef="let row" class="i_num">{{row.money | number}}</td>
+    </ng-container>
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef>タイプ</th>
+      <td mat-cell *matCellDef="let row">{{row.type}}</td>
+    </ng-container>    
+    <ng-container matColumnDef="tstmp">
+      <th mat-header-cell *matHeaderCellDef>タイムスタンプ</th>
+      <td mat-cell *matCellDef="let row">{{row.tstmp}}</td>
+    </ng-container>
+    <ng-container matColumnDef="del">
+      <th mat-header-cell *matHeaderCellDef>削除</th>
+      <td mat-cell *matCellDef="let row">{{row.del}}</td>
+    </ng-container>
+    <ng-container matColumnDef="act1">
+      <th mat-header-cell *matHeaderCellDef>Action1</th>
+      <td mat-cell *matCellDef="let row; let i = index">
+        <button mat-raised-button color="warn" focusable="false" (click)="deleteRow(i)" class="tbl_bt" [style.display]="row.del=='削除済' ? 'none' : 'block'">
+          <mat-icon>delete_forever</mat-icon>Del
+        </button>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="act2">
+      <th mat-header-cell *matHeaderCellDef>Action2</th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-raised-button color="accent" focusable="false" (click)="goList(row.wid)" class="tbl_bt">
+          <mat-icon>list</mat-icon>List
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngStyle]="{'background-color': setBgcolor(row.del)}"></tr>
+  </table>
+  <mat-paginator #paginators
+    [length]="dataSource?.data.length"
+    [pageIndex]="0"
+    [pageSize]="15"
+    [pageSizeOptions]="[15, 30, 50, 100]">
+  </mat-paginator>
+</div>

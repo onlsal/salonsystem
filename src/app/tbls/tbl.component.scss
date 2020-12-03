@@ -1,7 +1,7 @@
 .mat-elevation-z8 {
     margin-bottom: 10px;
 }
-button {
+.tbl_bt {
     min-width: 55px;
     padding: 0px;
 }
@@ -9,6 +9,19 @@ button {
     text-align: right;
     margin:0px;
 }
-.mat-cell, .mat-footer-cell, .mat-header-cell{
+.mat-cell, .mat-footer-cell, .mat-header-cell {
     padding: 5px;
+}
+.mat-toolbar {
+    font-size: 80%; 
+}
+.tbl_txt {
+    width:20em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mat-column-sendto {
+    flex: 0 0 10%;
 }

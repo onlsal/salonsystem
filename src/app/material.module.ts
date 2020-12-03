@@ -58,6 +58,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
      ,MatSelectModule
      ,MatStepperModule
      ,MatTableModule
+     ,MatTabsModule
      ,MatToolbarModule
      ,MatNativeDateModule
   ]

@@ -108,12 +108,12 @@ export class RegistComponent implements OnInit {
       To : 'onlinesalon7@gmail.com',
       Body : 'regist｜' + this.firstFormGroup.value.nam + '｜' + dojoid + '｜' + this.ownsrv.owner.mail + '｜' + cals + '｜',
       Subject : 'registOnlineSalon',
-      }).then( 
-        message => console.log(message)
-      );
-    this.ins_tblowner(); 
+    }).then( 
+      message => console.log(message)
+    );
+    this.ins_tblowner(flg); 
   }
-  private ins_tblowner():void {
+  private ins_tblowner(flg:boolean):void {
     this.apollo.mutate<any>({
       mutation: Query.InsertOwner,
       variables: {
@@ -130,7 +130,8 @@ export class RegistComponent implements OnInit {
           "street" : this.secondFormGroup.value.str,
           "extend" : this.secondFormGroup.value.ext,
           "url" :   this.secondFormGroup.value.url,
-          "tel" :   this.firstFormGroup.value.tel
+          "tel" :   this.firstFormGroup.value.tel,
+          "plan" :  flg
         }
       },
     }).subscribe(({ data }) => {

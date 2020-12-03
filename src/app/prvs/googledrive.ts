@@ -19,7 +19,7 @@ export class GoogleDriveProvider {
     //   return Promise.resolve(this.data);
     // }
 
-    var url = 'https://spreadsheets.google.com/feeds/list' + id + wid + '/public/values?alt=json';
+    var url = 'https://spreadsheets.google.com/feeds/list/' + id + '/' + wid + '/public/values?alt=json';
     // don't have the data yet
     return new Promise(resolve => {
       // We're using Angular Http provider to request the data,
