@@ -55,7 +55,7 @@ export class AdminComponent implements OnInit {
           let form:Form = new Form();
           form.tstmp = data[i]['タイムスタンプ'];
           form.title = data[i]['予約フォームタイトル'];
-          form.type = data[i]['予約フォームパターン'].split('＿')[0].slice( 1 );
+          form.type = data[i]['予約フォームタイプ'].split('＿')[0].slice( 1 );
           form.cal = data[i]['登録先カレンダー'].split('＿')[0];
           form.desc = data[i]['概要説明'];
           form.date = data[i]['開催日'];
