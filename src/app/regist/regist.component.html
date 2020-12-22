@@ -97,7 +97,10 @@
         <button mat-button mat-stroked-button (click)="stepper.reset()">入力リセット</button>
       </div>
       <br>
-      <div>
+      <div [style.display]="this.ownsrv.owner.dojoid? 'block' : 'none'">
+        <p>ご登録ありがとうございます。10分以内に届く完了メールをお待ちください。</p>
+      </div>
+      <div [style.display]="this.ownsrv.owner.dojoid? 'none' : 'block'">
         <button mat-flat-button color="accent" (click)="ins_owner(false)">基本プラン申し込み</button>
         <p>※決済サービスを利用した場合、決済手数料がかかりますが、その他の機能は無料でご使用いただけます。</p>
         <button mat-flat-button color="warn" (click)="ins_owner(true)">基本プラン＋名簿作成管理申し込み</button>

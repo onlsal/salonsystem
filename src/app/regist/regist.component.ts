@@ -91,34 +91,20 @@ export class RegistComponent implements OnInit {
   }
   
   public ins_owner(flg:boolean):void {
+
     this.get_dojoid().subscribe(dojoid => {
       this.ownsrv.owner.dojoid=dojoid;
-      this.regist_owner(flg,dojoid);
+      this.ins_tblowner(flg,dojoid);
     });
+
   }
 
-  private regist_owner(flg:boolean,dojoid:number):void {  
-    let cals:string = this.options.value[0].calender;
-    for (let i=1;i<this.options.length;i++){
-      cals += "＿" + this.options.value[i].calender;
-    }
-    Email.send({
-      SecureToken : '9853fbc2-4291-42b0-a969-e2c2015d1527',
-      From : 'info@online-salons.net',
-      To : 'onlinesalon7@gmail.com',
-      Body : 'regist｜' + this.firstFormGroup.value.nam + '｜' + dojoid + '｜' + this.ownsrv.owner.mail + '｜' + cals + '｜',
-      Subject : 'registOnlineSalon',
-    }).then( 
-      message => console.log(message)
-    );
-    this.ins_tblowner(flg); 
-  }
-  private ins_tblowner(flg:boolean):void {
+  private ins_tblowner(flg:boolean,dojoid:number):void {
     this.apollo.mutate<any>({
       mutation: Query.InsertOwner,
       variables: {
         "object": {
-          "dojoid": this.ownsrv.owner.dojoid,
+          "dojoid": dojoid,
           "googleid": this.ownsrv.owner.googleid,
           "dojoname" : this.firstFormGroup.value.nam,
           "sei" :   this.firstFormGroup.value.sei,
@@ -136,13 +122,27 @@ export class RegistComponent implements OnInit {
       },
     }).subscribe(({ data }) => {
       this.ownsrv.owner.dojoid = data.insert_tblowner_one.dojoid;
+      let cals:string = this.options.value[0].calender;
+      for (let i=1;i<this.options.length;i++){
+        cals += "＿" + this.options.value[i].calender;
+      }
+      Email.send({
+        SecureToken : '9853fbc2-4291-42b0-a969-e2c2015d1527',
+        From : 'info@online-salons.net',
+        To : 'onlinesalon7@gmail.com',
+        Body : 'regist｜' + this.firstFormGroup.value.nam + '｜' + dojoid + '｜' + this.ownsrv.owner.mail + '｜' + cals + '｜',
+        Subject : 'registOnlineSalon',
+      }).then( 
+        message => console.log(message)
+      ); 
       let dialog = this.dialog.open(DialogComponent ,{
                         'data' : {'mail' : this.ownsrv.owner.mail},
                         'height' : '300px',
                         'width' : '500px',
                         'disableClose' : false
                         });
-      this.router.navigate(['/home']);
+      console.log(this.dojoid);                 
+      // this.router.navigate(['/home']);
     },(error) => {
       console.log('error Insertownertbl', error);
     });
