@@ -48,6 +48,7 @@ export class TblformComponent implements OnInit {
     });
     confdia.afterClosed().subscribe(result => {
       if(result) {
+        // console.log(this.admsrv.forms[i].formid,this.admsrv.forms[i]);
         Email.send({
           SecureToken : '9853fbc2-4291-42b0-a969-e2c2015d1527',
           From : 'info@online-salons.net',
