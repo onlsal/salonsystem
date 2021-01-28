@@ -9,6 +9,7 @@ import { RegistComponent } from './regist/regist.component';
 import { HomeComponent } from './home/home.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr'; 
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -50,6 +51,7 @@ import { TblmailComponent } from './tbls/tblmail.component';
     GraphQLModule,
     HttpClientModule,
     OAuthModule.forRoot(),
+    ToastrModule.forRoot(),
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,

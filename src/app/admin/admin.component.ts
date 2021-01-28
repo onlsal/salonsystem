@@ -5,6 +5,8 @@ import { AdminService, Form, Cal } from '../srvs/admin.service';
 import { TblresComponent } from '../tbls/tblres.component';
 import { Apollo } from 'apollo-angular';
 import * as Query from '../queries';
+import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 
 class Mst {
   dojoid:number;
@@ -28,15 +30,32 @@ class Mst {
 
 export class AdminComponent implements OnInit {
   @ViewChild(TblresComponent) tblres:TblresComponent;
+  public frmgrp: FormGroup;
   public ids:Mst;
   public TabIndex:number=0;
   constructor(private apollo: Apollo,
+              private frmBlder: FormBuilder,
               public gDrive: GoogleDriveProvider,
               public ownsrv: OwnerService,
-              public admsrv: AdminService  ) { }
+              public admsrv: AdminService,
+              private toastr: ToastrService  ) { }
 
   ngOnInit(): void {
-    this.readGdrive();    
+    this.readGdrive();
+    this.frmgrp = this.frmBlder.group({
+      dojoname: ['', Validators.required],
+      sei: ['', Validators.required],
+      mei: ['', Validators.required],
+      tel: ['', Validators.required],
+      zip: ['', Validators.required],
+      region: ['', Validators.required],
+      local: ['', Validators.required],
+      street: ['', Validators.required],
+      extend: ['',''],
+      url: ['','']
+    });
+    // console.log(this.ownsrv.owner);
+    this.frmgrp.patchValue(this.ownsrv.owner);
   }
 
   readGdrive():void {
@@ -131,6 +150,7 @@ export class AdminComponent implements OnInit {
     this.TabIndex = 3;
     this.tblres.readJoin();
   }
+
   ins_maillog(){
     this.apollo.mutate<any>({
       mutation: Query.InsertMaillog,
@@ -147,6 +167,37 @@ export class AdminComponent implements OnInit {
     },(error) => {
       console.log('error Insertmailtbl', error);
     });
+  }
+　
+  updOwner(){
+    this.apollo.mutate<any>({
+      mutation: Query.UpdateOwner,
+      variables: {
+        "_set": {
+          "dojoname" : this.frmgrp.value.nam,
+          "sei" :   this.frmgrp.value.sei,
+          "mei" :   this.frmgrp.value.mei,
+          "zip" : this.frmgrp.value.zip,
+          "region" : this.frmgrp.value.region,
+          "local" : this.frmgrp.value.local,
+          "street" : this.frmgrp.value.street,
+          "extend" : this.frmgrp.value.extend,
+          "url" :   this.frmgrp.value.url,
+          "tel" :   this.frmgrp.value.tel
+        },
+        "gid": this.ownsrv.owner.googleid
+      },
+    }).subscribe(({ data }) => {
+      this.toastr.success('変更を保存しました');
+    },(error) => {
+      console.log('error Updateownertbl', error);
+    });    
+  }
+  regPlan(){
+    console.log(this.ownsrv.owner);
+  }
+  canPlan(){
+    console.log(this.ownsrv.owner);
   }
 
 }

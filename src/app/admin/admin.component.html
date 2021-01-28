@@ -42,7 +42,7 @@
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon class="example-tab-icon">mail</mat-icon>
+        <mat-icon class="tab-icon">mail</mat-icon>
         メール送信履歴
       </ng-template>
       <mat-card-content>  
@@ -51,7 +51,7 @@
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon class="example-tab-icon">payment</mat-icon>
+        <mat-icon class="tab-icon">payment</mat-icon>
         月謝管理
       </ng-template>
       <mat-card-content>  
@@ -60,13 +60,79 @@
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
-          <mat-icon class="example-tab-icon">people</mat-icon>
+          <mat-icon class="tab-icon">people</mat-icon>
           会員管理
       </ng-template>
       <mat-card-content>  
         作成中
       </mat-card-content>
     </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">account_box</mat-icon>
+          登録情報変更
+      </ng-template>
+      <mat-card-content class="container">  
+        <div class="mat-elevation-z8">
+          <mat-toolbar fxLayoutGap="5px">
+            <button mat-flat-button color="accent" (click)="updOwner()">登録情報更新</button >
+            <button mat-flat-button color="accent" (click)="regPlan()" *ngIf="!ownsrv.owner.plan">名簿管理プラン申込</button >
+            <button mat-flat-button color="accent" (click)="canPlan()" *ngIf="ownsrv.owner.plan">名簿管理プラン解約</button >
+          </mat-toolbar>
+          <form [formGroup]="frmgrp" class="container" ngNativeValidate ybAddress (submit)="false" [ybAutocompleteMode]="'off'" #address="ybAddress">
+            <div fxLayout="row wrap" fxLayoutGap="7px">
+              <mat-form-field>
+                <mat-label>団体名or道場名</mat-label>
+                <input matInput formControlName="dojoname" required>
+              </mat-form-field>
+              <mat-form-field>
+                  <mat-label>代表者姓</mat-label>
+                  <input matInput formControlName="sei" required>
+              </mat-form-field>
+              <mat-form-field >
+                  <mat-label>代表者名</mat-label>
+                  <input matInput formControlName="mei" required>
+              </mat-form-field>
+              <mat-form-field >
+                  <mat-label>連絡先電話番号</mat-label>
+                  <input matInput formControlName="tel" required>
+              </mat-form-field>
+              <mat-checkbox checked="ownsrv.owner.plan" disabled>
+                名簿管理プラン申込済
+              </mat-checkbox>            
+            </div>
+            <div fxLayout="row wrap" fxLayoutGap="7px">
+            <mat-form-field>
+              <mat-label>郵便番号</mat-label>
+              <input matInput formControlName="zip" ybPostalCode required>
+              <button mat-button matSuffix mat-stroked-button aria-label="get" (click)="address.complete()">
+                住所補完
+              </button>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>都道府県</mat-label>
+              <input matInput formControlName="region" ybRegion required>
+            </mat-form-field> 
+            <mat-form-field>
+              <mat-label>市区町村</mat-label>
+              <input matInput formControlName="local" ybLocality required>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>町名・番地</mat-label>
+              <input matInput formControlName="street" ybStreet required>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>マンション・ビル名</mat-label>
+              <input matInput formControlName="extend" ybExtended>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>ホームページアドレス</mat-label>
+              <input matInput formControlName="url">
+            </mat-form-field>
+          </div>
+          </form>
+        </div>
+      </mat-card-content>
+    </mat-tab>    
   </mat-tab-group>
 </mat-card>
-

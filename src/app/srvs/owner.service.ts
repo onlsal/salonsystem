@@ -15,6 +15,7 @@ export class Owner {
   url:string;
   tel:string;
   folderid:string;
+  plan:boolean;
   constructor(init?:Partial<Owner>) {
       Object.assign(this, init);
   }

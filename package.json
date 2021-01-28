@@ -39,6 +39,7 @@
     "force-ssl-heroku": "^1.0.2",
     "graphql": "^15.0.0",
     "moment": "^2.29.0",
+    "ngx-toastr": "^13.2.0",
     "ngx-yubinbango": "^1.0.5",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",

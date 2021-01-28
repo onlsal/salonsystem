@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 export const GetQuery1 = gql`
 query get_owner($gid: String!) {
   tblowner(where: {googleid: {_eq: $gid}}) {
+    googleid
     dojoid
     dojoname
     sei
@@ -15,6 +16,7 @@ query get_owner($gid: String!) {
     extend
     url
     tel
+    plan
     tblforms {
       dojoid
       pattern
@@ -72,5 +74,12 @@ mutation ins_maillog($object: tblmaillog_insert_input!) {
   insert_tblmaillog_one(object: $object) {
     id
     dojoid
+  }
+}`;
+
+export const UpdateOwner = gql`
+mutation upd_owner($_set: tblowner_set_input!, $gid: String!) {
+  update_tblowner_by_pk(pk_columns: {googleid: $gid}, _set: $_set) {
+    googleid
   }
 }`;
