@@ -174,7 +174,7 @@ export class AdminComponent implements OnInit {
       mutation: Query.UpdateOwner,
       variables: {
         "_set": {
-          "dojoname" : this.frmgrp.value.nam,
+          "dojoname" : this.frmgrp.value.dojoname,
           "sei" :   this.frmgrp.value.sei,
           "mei" :   this.frmgrp.value.mei,
           "zip" : this.frmgrp.value.zip,
