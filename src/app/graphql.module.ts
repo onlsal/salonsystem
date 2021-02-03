@@ -4,7 +4,7 @@ import {APOLLO_OPTIONS} from 'apollo-angular';
 import {ApolloClientOptions, InMemoryCache} from '@apollo/client/core';
 import {HttpLink} from 'apollo-angular/http';
 
-const uri = 'https://onlsaltbl.herokuapp.com/v1/graphql'; // <-- add the URL of the GraphQL server here
+const uri = 'https://salsystbl.herokuapp.com/v1/graphql'; // <-- add the URL of the GraphQL server here
 const authHeader = new HttpHeaders()
     .set('X-Hasura-Access-Key', 'something_secret')
     .set('X-Hasura-admin-secret', 'something_secret')
