@@ -58,7 +58,7 @@
         決済契約後、導入予定
       </mat-card-content>
     </mat-tab>
-    <mat-tab>
+    <mat-tab *ngIf="ownsrv.owner.plan">
       <ng-template mat-tab-label>
           <mat-icon class="tab-icon">people</mat-icon>
           会員管理
@@ -74,14 +74,19 @@
       </ng-template>
       <mat-card-content class="container">  
         <div class="mat-elevation-z8">
-          <mat-toolbar fxLayoutGap="5px">
+          <mat-toolbar fxLayoutGap="10px">
             <button mat-flat-button color="accent" (click)="updOwner()">登録情報更新</button >
-            <button mat-flat-button color="accent" (click)="regPlan()" *ngIf="!ownsrv.owner.plan">名簿管理プラン申込</button >
-            <button mat-flat-button color="accent" (click)="canPlan()" *ngIf="ownsrv.owner.plan">名簿管理プラン解約</button >
+            <div *ngIf="flg">
+              <p>プラン変更を受け付けました</p>
+            </div>
+            <div *ngIf="!flg">
+              <button mat-flat-button color="accent" (click)="regPlan()" *ngIf="!ownsrv.owner.plan">名簿管理プラン申込</button >
+              <button mat-flat-button color="accent" (click)="canPlan()" *ngIf="ownsrv.owner.plan">名簿管理プラン解約</button >
+            </div>
           </mat-toolbar>
           <form [formGroup]="frmgrp" class="container" ngNativeValidate ybAddress (submit)="false" [ybAutocompleteMode]="'off'" #address="ybAddress">
             <div fxLayout="row wrap" fxLayoutGap="7px">
-              <mat-form-field>
+              <mat-form-field style="width: 20em;">
                 <mat-label>団体名or道場名</mat-label>
                 <input matInput formControlName="dojoname" required>
               </mat-form-field>
@@ -97,7 +102,7 @@
                   <mat-label>連絡先電話番号</mat-label>
                   <input matInput formControlName="tel" required>
               </mat-form-field>
-              <mat-checkbox checked="ownsrv.owner.plan" disabled>
+              <mat-checkbox [checked]="ownsrv.owner.plan" disabled>
                 名簿管理プラン申込済
               </mat-checkbox>            
             </div>
@@ -125,7 +130,7 @@
               <mat-label>マンション・ビル名</mat-label>
               <input matInput formControlName="extend" ybExtended>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field style="width: 20em;">
               <mat-label>ホームページアドレス</mat-label>
               <input matInput formControlName="url">
             </mat-form-field>

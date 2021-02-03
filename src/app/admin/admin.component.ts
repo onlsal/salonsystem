@@ -33,6 +33,8 @@ export class AdminComponent implements OnInit {
   public frmgrp: FormGroup;
   public ids:Mst;
   public TabIndex:number=0;
+  public gid:number;
+  public flg:boolean=false;
   constructor(private apollo: Apollo,
               private frmBlder: FormBuilder,
               public gDrive: GoogleDriveProvider,
@@ -55,7 +57,9 @@ export class AdminComponent implements OnInit {
       url: ['','']
     });
     // console.log(this.ownsrv.owner);
+    this.gid=this.ownsrv.owner.googleid;
     this.frmgrp.patchValue(this.ownsrv.owner);
+    // this.ownsrv.observe.subscribe((owner) => this.frmgrp.patchValue(owner)});
   }
 
   readGdrive():void {
@@ -143,7 +147,10 @@ export class AdminComponent implements OnInit {
     });
   }
   refresh(){
+    let claim:any={sub:this.gid};
     this.admsrv.clear();
+    // console.log('refresh',this.ownsrv);
+    // this.ownsrv.getOwner(claim);
     this.readGdrive();
   }
   goList(){
@@ -185,19 +192,49 @@ export class AdminComponent implements OnInit {
           "url" :   this.frmgrp.value.url,
           "tel" :   this.frmgrp.value.tel
         },
-        "gid": this.ownsrv.owner.googleid
+        "gid": this.gid
       },
     }).subscribe(({ data }) => {
       this.toastr.success('変更を保存しました');
+      // this.refresh();
     },(error) => {
       console.log('error Updateownertbl', error);
     });    
   }
   regPlan(){
-    console.log(this.ownsrv.owner);
+    this.apollo.mutate<any>({
+      mutation: Query.UpdateOwner,
+      variables: {
+        "_set": {
+          "plan" : true,
+        },
+        "gid": this.gid
+      },
+    }).subscribe(({ data }) => {
+      this.toastr.success('会員管理プラン追加申込を受け付けました');
+      this.flg=true;
+      // this.ownsrv.setPlan(true);
+      // this.refresh();
+    },(error) => {
+      console.log('error Updateownertbl', error);
+    });  
   }
   canPlan(){
-    console.log(this.ownsrv.owner);
+    this.apollo.mutate<any>({
+      mutation: Query.UpdateOwner,
+      variables: {
+        "_set": {
+          "plan" : false,
+        },
+        "gid": this.gid
+      },
+    }).subscribe(({ data }) => {
+      this.toastr.success('会員管理プラン解約を受け付けました');
+      this.flg=true;
+      // this.ownsrv.setPlan(false);
+      // this.refresh();
+    },(error) => {
+      console.log('error Updateownertbl', error);
+    }); 
   }
-
 }
