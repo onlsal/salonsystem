@@ -4,6 +4,7 @@ import { AdminService,Fpat } from '../srvs/admin.service';
 import { OwnerService } from '../srvs/owner.service';
 import { Apollo } from 'apollo-angular';
 import * as Query from '../queries';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-tblfpat',
@@ -17,7 +18,8 @@ export class TblfpatComponent implements OnInit {
 
   constructor(public admsrv:AdminService,
               public ownsrv:OwnerService,
-              private apollo: Apollo) { }
+              private apollo: Apollo,
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.admsrv.observe.subscribe(() => this.refresh());
@@ -65,6 +67,7 @@ export class TblfpatComponent implements OnInit {
           "objects": this.admsrv.fpats
         },
       }).subscribe(({ data }) => {
+        this.toastr.success('パターンを保存しました');
         this.refresh();
       },(error) => {
         console.log('error InsertForms', error);

@@ -9,6 +9,7 @@ import { RegistComponent } from './regist/regist.component';
 import { HomeComponent } from './home/home.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr'; 
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -48,6 +49,7 @@ import { TblmailComponent } from './tbls/tblmail.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    CommonModule,
     GraphQLModule,
     HttpClientModule,
     OAuthModule.forRoot(),
